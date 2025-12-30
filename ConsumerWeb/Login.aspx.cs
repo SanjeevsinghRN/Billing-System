@@ -164,9 +164,9 @@ public partial class Login : System.Web.UI.Page
         
         {
             txtCaptcha.Text = "";
-            ViewState["captcha"] = Utils.RandomAlphaNumericString(6);
-           // txtCaptcha.Text = ViewState["captcha"].ToString();
-           // txtUserName.Text = "8109149740";
+            ViewState["captcha"] = "ABCFDS"; //MUtils.GenerateRandomCode(6);
+                                             // txtCaptcha.Text = ViewState["captcha"].ToString();
+                                             // txtUserName.Text = "8109149740";
             ms = CreateCaptcha(ViewState["captcha"].ToString());
             imgCaptcha.ImageUrl = "data:image/jpeg;base64," + Convert.ToBase64String(ms.ToArray(), 0, ms.ToArray().Length);
             ms.Dispose();

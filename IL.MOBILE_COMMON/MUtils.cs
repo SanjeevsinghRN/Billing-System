@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using System.Reflection;
 using System.Text;
-using OP.Encryption;
+//using OP.Encryption;
 
 namespace RN.MOBILE_COMMON
 {
@@ -114,35 +114,35 @@ namespace RN.MOBILE_COMMON
         public static string EncryptPassword(string password)
         {
             string encryptedPassword = "";
-            try
-            {
-                OPEncryptDecrypt encryptedPasswordObject = new OPEncryptDecrypt();
-                string data = password;
-                string key = password;
-                encryptedPassword = encryptedPasswordObject.EncryptString(data, key);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            //try
+            //{
+            //    OPEncryptDecrypt encryptedPasswordObject = new OPEncryptDecrypt();
+            //    string data = password;
+            //    string key = password;
+            //    encryptedPassword = encryptedPasswordObject.EncryptString(data, key);
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw ex;
+            //}
             return encryptedPassword;
         }
-        public static string DecryptPassword(string password)
-        {
-            string encryptedPassword = "";
-            try
-            {
-                OPEncryptDecrypt encryptedPasswordObject = new OPEncryptDecrypt();
-                string data = password;
-                string key = password;
-                encryptedPassword = encryptedPasswordObject.DecryptString(data, key);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return encryptedPassword;
-        }
+        //public static string decryptpassword(string password)
+        //{
+        //    string encryptedpassword = "";
+        //    try
+        //    {
+        //        opencryptdecrypt encryptedpasswordobject = new opencryptdecrypt();
+        //        string data = password;
+        //        string key = password;
+        //        encryptedpassword = encryptedpasswordobject.decryptstring(data, key);
+        //    }
+        //    catch (exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    return encryptedpassword;
+        //}
 
         public static async Task<string> GetURLContentsAsync(string url)
         {
@@ -707,16 +707,16 @@ namespace RN.MOBILE_COMMON
         public static string EncryptPassword_New(string password)
         {
             string encryptedPassword = "";
-            try
-            {
-                OPEncryptDecrypt objNewEncrypt = new OPEncryptDecrypt();
-                string inputPassword = password;
-                encryptedPassword = objNewEncrypt.EncryptString(inputPassword);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            //try
+            //{
+            //    opencryptdecrypt objnewencrypt = new opencryptdecrypt();
+            //    string inputpassword = password;
+            //    encryptedpassword = objnewencrypt.encryptstring(inputpassword);
+            //}
+            //catch (exception ex)
+            //{
+            //    throw ex;
+            //}
             return encryptedPassword;
         }
     }

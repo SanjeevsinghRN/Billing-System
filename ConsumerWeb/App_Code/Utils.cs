@@ -517,12 +517,12 @@ public class Utils
     }
 
     private static Random random = new Random();
-    public static string RandomAlphaNumericString(int length)
-    {
-        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        return new string(Enumerable.Repeat(chars, length)
-          .Select(s => s[random.Next(s.Length)]).ToArray());
-    }
+    //public static string RandomAlphaNumericString(int length)
+    //{
+    //    const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    //    return new string(Enumerable.Repeat(chars, length)
+    //      .Select(s => s[random.Next(s.Length)]).ToArray());
+    //}
 
     [DllImport("urlmon.dll", CharSet = CharSet.Unicode, ExactSpelling = true, SetLastError = false)]
     static extern int FindMimeFromData(IntPtr pBC,
