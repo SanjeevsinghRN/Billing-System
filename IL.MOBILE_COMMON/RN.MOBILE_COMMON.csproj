@@ -39,9 +39,6 @@
     <Reference Include="Encrypt">
       <HintPath>..\CommonDll\Encrypt.dll</HintPath>
     </Reference>
-    <Reference Include="OP.Encryption">
-      <HintPath>..\IL.OP\OP.Encryption\bin\Debug\OP.Encryption.dll</HintPath>
-    </Reference>
     <Reference Include="SQLite-net, Version=1.9.172.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\sqlite-net-pcl.1.9.172\lib\netstandard2.0\SQLite-net.dll</HintPath>
     </Reference>
