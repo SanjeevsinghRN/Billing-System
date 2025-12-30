@@ -9,16 +9,29 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
   artifactName: 'drop'
+  websiteName: 'BillingWebSite'          # IIS site name
+  appPoolName: 'BillingWebAppPool'       # IIS application pool name
+  iisAppPath: 'C:\inetpub\wwwroot\BillingWebSite' # Live site folder
+  tempDeployPath: 'C:\inetpub\wwwroot\BillingWebSite_temp' # Temp deploy folder
+  backupPath: 'C:\inetpub\wwwroot\BillingWebSite_backup'  # Backup folder
 
 steps:
 # 1️⃣ Checkout source code
 - checkout: self
 
-# 2️⃣ Install NuGet Tool (latest)
+# 2️⃣ Install NuGet
 - task: NuGetToolInstaller@1
   displayName: 'Install NuGet'
 
-# 3️⃣ Restore NuGet packages using latest NuGet.exe
+# 3️⃣ Clear NuGet cache (optional for self-hosted agent)
+- task: PowerShell@2
+  displayName: 'Clear NuGet Cache'
+  inputs:
+    targetType: 'inline'
+    script: |
+      nuget locals all -clear
+
+# 4️⃣ Restore NuGet packages
 - task: NuGetCommand@2
   displayName: 'Restore NuGet Packages'
   inputs:
@@ -27,7 +40,7 @@ steps:
     includeNuGetOrg: true
     noCache: true
 
-# 4️⃣ Build solution using Visual Studio 2022 MSBuild
+# 5️⃣ Build solution using Visual Studio 2022 MSBuild
 - task: VSBuild@1
   displayName: 'Build Solution'
   inputs:
@@ -40,7 +53,7 @@ steps:
     maximumCpuCount: true
     restoreNugetPackages: true
 
-# 5️⃣ Copy build outputs to Artifact Staging Directory
+# 6️⃣ Copy build outputs to Artifact Staging Directory
 - task: CopyFiles@2
   displayName: 'Copy Build Artifacts'
   inputs:
@@ -48,10 +61,70 @@ steps:
     Contents: '**'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
-# 6️⃣ Publish build artifacts
+# 7️⃣ Publish build artifacts
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifacts'
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: '$(artifactName)'
     publishLocation: 'Container'
+
+# 8️⃣ Setup IIS site & App Pool if not exist
+- task: PowerShell@2
+  displayName: 'Create IIS Site & App Pool if not exist'
+  inputs:
+    targetType: 'inline'
+    script: |
+      Import-Module WebAdministration
+      if (-not (Test-Path IIS:\AppPools\$(appPoolName))) { New-Item IIS:\AppPools\$(appPoolName) }
+      if (-not (Test-Path IIS:\Sites\$(websiteName))) {
+          New-Item IIS:\Sites\$(websiteName) -bindings @{protocol="http";bindingInformation="*:80:"} -physicalPath "$(iisAppPath)"
+          Set-ItemProperty IIS:\Sites\$(websiteName) -Name applicationPool -Value $(appPoolName)
+      }
+
+# 9️⃣ Zero-Downtime Deployment with Rollback
+- task: PowerShell@2
+  displayName: 'Zero-Downtime Deployment with Rollback'
+  inputs:
+    targetType: 'inline'
+    script: |
+      try {
+          Import-Module WebAdministration
+          $packagePath = Get-ChildItem "$(Build.ArtifactStagingDirectory)\**\*.zip" | Select-Object -First 1
+          if (-not $packagePath) { throw "Package not found." }
+
+          # Prepare folders
+          if (Test-Path "$(tempDeployPath)") { Remove-Item "$(tempDeployPath)" -Recurse -Force }
+          New-Item -Path "$(tempDeployPath)" -ItemType Directory
+
+          if (Test-Path "$(backupPath)") { Remove-Item "$(backupPath)" -Recurse -Force }
+
+          # Extract package to temp folder
+          Add-Type -AssemblyName System.IO.Compression.FileSystem
+          [System.IO.Compression.ZipFile]::ExtractToDirectory($packagePath.FullName, "$(tempDeployPath)")
+
+          # Stop App Pool
+          Stop-WebAppPool -Name $(appPoolName)
+
+          # Backup current site
+          if (Test-Path "$(iisAppPath)") { Rename-Item -Path "$(iisAppPath)" -NewName "$(backupPath)" }
+
+          # Deploy new version
+          Rename-Item -Path "$(tempDeployPath)" -NewName "$(iisAppPath)"
+
+          # Start App Pool
+          Start-WebAppPool -Name $(appPoolName)
+
+          Write-Host "Deployment successful."
+
+      } catch {
+          Write-Error "Deployment failed: $_"
+          # Rollback if backup exists
+          if (Test-Path "$(backupPath)") {
+              if (Test-Path "$(iisAppPath)") { Remove-Item "$(iisAppPath)" -Recurse -Force }
+              Rename-Item -Path "$(backupPath)" -NewName "$(iisAppPath)"
+              Start-WebAppPool -Name $(appPoolName)
+              Write-Host "Rollback completed from backup."
+          }
+          exit 1
+      }
