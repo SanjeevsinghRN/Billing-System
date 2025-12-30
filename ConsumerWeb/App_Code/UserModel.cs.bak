@@ -1,0 +1,716 @@
+﻿using Newtonsoft.Json;
+using RN.MOBILE_COMMON;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+
+/// <summary>
+/// Summary description for UserModel
+/// </summary>
+public class UserModel
+{
+
+
+    public UserModel()
+    {
+        //
+        // TODO: Add constructor logic here
+        //
+    }
+
+    public static bool ValidateOTP(int userID, string OTP, string token)
+    {
+        string requestURI = Utils.CLSURL + string.Format("api/Patient/ValidateOTPV1");
+        bool isSuccess = false;
+        ReqRes_Consumer objReqRes = new ReqRes_Consumer();
+        try
+        {
+            string PostData = objReqRes.ValidateOTP_Request_serialize(userID, OTP, token);
+            Utils _utils = new Utils();
+            var response = _utils.PostRequest(requestURI, PostData);
+            isSuccess = Convert.ToBoolean(objReqRes.ValidateOTP_Response_Deserialize(JsonConvert.DeserializeObject<string>(response), token));
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return isSuccess;
+    }
+
+    public static bool ValidateNewPatient(int userType, Patient patient)
+    {
+        string requestURI = Utils.CLSURL + string.Format("api/login/GetUserAvailable?userType={0}&mobileNo={1}&emailID={2}", userType, patient.MobileNo, patient.EmailID);
+
+        bool isSuccess = false;
+        try
+        {
+            Utils _utils = new Utils();
+            var response = _utils.HttpRequestResponse(requestURI);
+            isSuccess = JsonConvert.DeserializeObject<bool>(response);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return isSuccess;
+    }
+    public static User CheckCredential(int userType, string userName, string password)
+    {
+        User _user = new User();
+        string uri = Utils.CLSURL + string.Format("api/Patient/GetUserDetails");
+        Utils _utils = new Utils();
+        ReqRes_Consumer objSerialize = new ReqRes_Consumer();
+        try
+        {
+            string RequestStr = objSerialize.GetUserDetails_Request_Serialize(userType, userName, password, "", Utils.App_Name, Utils.DeviceId);
+            var response = _utils.PostRequest(uri, RequestStr);
+            if (response != null && response != string.Empty)
+                _user = objSerialize.GetUserDetails_Response_Deserialize(JsonConvert.DeserializeObject<string>(response));
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _user;
+    }
+    public static int SendMPIN(string payercode, string mobile, string emailid, string mpin, string App_Guid)
+    {
+        string requestURI = Utils.CLSURL + string.Format("api/Login/SendMPIN_V1?payercode={0}&mobile={1}&emailid={2}&mpin={3}&App_Guid={4}", payercode, mobile, emailid, mpin, App_Guid);
+        int result = 0;
+        try
+        {
+            Utils _utils = new Utils();
+            string response = _utils.HttpRequestResponse(requestURI);
+            result = JsonConvert.DeserializeObject<int>(response);
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return result;
+    }
+
+    public static string GenerateOTP(int userType, string userID, string MobileNo, string token)
+    {
+        string OTP = string.Empty;
+        string uri = Utils.CLSURL + string.Format("api/Patient/PostGenerateOTP");
+        Utils _utils = new Utils();
+        RequestResponse objReq = new RequestResponse();
+
+        try
+        {
+            string postData = objReq.PostGenerateOTP_Request_serialize(userType, userID, MobileNo, token);
+            var response = _utils.PostRequest(uri, postData);
+            OTP = objReq.PostGenerateOTP_Response_Deserialize(JsonConvert.DeserializeObject<string>(response), token);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return OTP;
+    }
+
+    public static string ChangePassword(int userID, string password, string oldpassword, string IPAddress, string DeviceID)
+    {
+        string requestURI = Utils.CLSURL + string.Format("api/login/ChangePassword_V2?userID={0}&password={1}&oldPassword={2}&IPAddress={3}&DeviceID={4}", userID, password, oldpassword,IPAddress,DeviceID);
+        string isSuccess = string.Empty;
+        RequestResponse objReqRes = new RequestResponse();
+        try
+        {
+            Utils _utils = new Utils();
+            var response = _utils.HttpRequestResponse(requestURI);
+            //isSuccess = JsonConvert.DeserializeObject<string>(response);
+            isSuccess = objReqRes.String_Response_Deserialize_Key(JsonConvert.DeserializeObject<string>(response));
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return isSuccess;
+    }
+
+    public static string logpassword_change_failed_count(string userID, string entitycode, bool isMpin = false)
+    {
+        string requestURI = Utils.CLSURL + string.Format("api/login/logpassword_change_failed_count?userID={0}&entitycode={1}&isMpin={2}", userID, entitycode, isMpin);
+        string isSuccess = string.Empty;
+        RequestResponse objReqRes = new RequestResponse();
+        try
+        {
+            Utils _utils = new Utils();
+            var response = _utils.HttpRequestResponse(requestURI);
+            //isSuccess = JsonConvert.DeserializeObject<string>(response);
+            isSuccess = objReqRes.String_Response_Deserialize_Key(JsonConvert.DeserializeObject<string>(response));
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return isSuccess;
+    }
+
+    public static Physician_SearchMenu GetPhysicianSplSearchMenu(string Latitude, string Longitude, int RadiusLimit = 0, string SearchKey = "", string Pincode = "", int cityId = 0, string token = "")
+    {
+        string requestURI = Utils.CLSURL + string.Format("api/common/GetPhysicianSplSearchMenu?Latitude={0}&Longitude={1}&RadiusLimit={2}&SearchKey={3}&Pincode={4}&cityId={5}", Latitude, Longitude, RadiusLimit, SearchKey, Pincode, cityId);
+        Physician_SearchMenu obj = new Physician_SearchMenu();
+        Utils _utils = new Utils();
+        RequestResponse objReqRes = new RequestResponse();
+        try
+        {
+            string response = _utils.HttpRequestResponse(requestURI);
+            obj = objReqRes.GetPhysicianSplSearchMenu_Com_Deserialize(JsonConvert.DeserializeObject<string>(response), token);
+            // obj = JsonConvert.DeserializeObject<Physician_SearchMenu>(response);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return obj;
+    }
+    public static List<OP_Menu_Search> GetSearchCityMenu(string token)
+    {
+        string requestURI = Utils.CLSURL + string.Format("api/common/GetSearchCityMenu");
+        List<OP_Menu_Search> obj = new List<OP_Menu_Search>();
+        Utils _utils = new Utils();
+        RequestResponse objReqRes = new RequestResponse();
+        try
+        {
+            string response = _utils.HttpRequestResponse(requestURI);
+            obj = objReqRes.GetSearchCityMenu_Com_Deserialize(JsonConvert.DeserializeObject<string>(response), token);
+
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return obj;
+    }
+
+    public static GoogleMapPlaceClass findLocation(string SearchKey)
+    {
+        GoogleMapPlaceClass _geo = new GoogleMapPlaceClass();
+        string uri = Utils.CLSURL + string.Format("api/common/GetGoogleMapAutocompleteData?Searchkey={0}", SearchKey);
+        try
+        {
+            Utils _utils = new Utils();
+            string response = _utils.HttpRequestResponse(uri);
+            _geo = JsonConvert.DeserializeObject<GoogleMapPlaceClass>(response);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _geo;
+    }
+
+    public static int GetCityID(string cityName)
+    {
+        string requestURI = Utils.CLSURL + string.Format("api/common/GetCityID?cityName={0}", cityName.Trim());
+        int obj = 0;
+        Utils _utils = new Utils();
+        try
+        {
+            string response = _utils.HttpRequestResponse(requestURI);
+            obj = JsonConvert.DeserializeObject<int>(response);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return obj;
+    }
+
+    public static string GetPolicyNumber(string PatientID, string payercode)
+    {
+        string ReturnResponse = string.Empty;
+        string requestURI = Utils.CLSURL + string.Format("api/login/GetPolicyNumber?PatientID={0}&payercode={1}", PatientID, payercode);
+        Utils _utils = new Utils();
+        RequestResponse objReqRes = new RequestResponse();
+        try
+        {
+            string response = _utils.HttpRequestResponse(requestURI);
+            ReturnResponse = JsonConvert.DeserializeObject<string>(response);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return ReturnResponse;
+    }
+
+    public static List<RN.MOBILE_COMMON.RateUs> GetRateUsValues(string patientid, string token)
+    {
+        List<RN.MOBILE_COMMON.RateUs> _Rateus = new List<RN.MOBILE_COMMON.RateUs>();
+        string uri = Utils.CLSURL + string.Format("api/login/GetRateUsValues?patientid={0}", patientid);
+        Utils _utils = new Utils();
+        RequestResponse objReqRes = new RequestResponse();
+        try
+        {
+            var response = _utils.HttpRequestResponse(uri);
+            _Rateus = objReqRes.GetRateusValues_DeSerialize(JsonConvert.DeserializeObject<string>(response), token);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _Rateus;
+    }
+
+    public static List<Lookup> GetLookupList(int lookUpTypeID, string token)
+    {
+        List<Lookup> _lookup = new List<Lookup>();
+        string uri = Utils.CLSURL + string.Format("api/login?lookUpTypeID={0}", lookUpTypeID);
+        Utils _utils = new Utils();
+        RequestResponse objReqRes = new RequestResponse();
+        try
+        {
+            var response = _utils.HttpRequestResponse(uri);
+            _lookup = objReqRes.GetLookupValues_Deserialize(JsonConvert.DeserializeObject<string>(response), token);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _lookup;
+    }
+
+    public static int SubmitRateUs(RN.MOBILE_COMMON.RateUs ObjRateUs, string token)
+    {
+
+        string requestURI = Utils.CLSURL + string.Format("api/login/PostRateUs?");
+        string UserId = string.Empty;
+        int response = 0;
+        RequestResponse objReqRes = new RequestResponse();
+        try
+        {
+            Utils _utils = new Utils();
+            string sData = objReqRes.OP_RateUs_Serialize(ObjRateUs, token);
+            response = Convert.ToInt32(_utils.PostRequest(requestURI, sData));
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return response;
+    }
+
+
+    public static List<Pharmacy> GetPharmacyAvailableCenters(string Latitude, string Longitude, string token, string SearchKey = "", string Pincode = "", int Radius = 0, int CityId = 0)
+    {
+        string requestURI = Utils.CLSURL + string.Format("api/pharmacy/GetPharmacyAvailableCenters?Latitude={0}&Longitude={1}&SearchKey={2}&Pincode={3}&RadiusLimit={4}&cityId={5}", Latitude, Longitude, SearchKey, Pincode, Radius, CityId);
+        List<Pharmacy> objlist = new List<Pharmacy>();
+        Utils _utils = new Utils();
+        RequestResponse objReqRes = new RequestResponse();
+        try
+        {
+            string response = _utils.HttpRequestResponse(requestURI);
+            objlist = objReqRes.GetPharmacyAvailableCenters_Deserialize(JsonConvert.DeserializeObject<string>(response), token);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return objlist;
+    }
+
+    public static bool SubmitCustomerIssue(CustomerIssue objissue, string token)
+    {
+
+        string requestURI = Utils.CLSURL + string.Format("api/patient/PostcustomerIssue?");
+        string UserId = string.Empty;
+        bool isSuccess = false;
+        ReqRes_Consumer objReqRes = new ReqRes_Consumer();
+        try
+        {
+            Utils _utils = new Utils();
+            string sData = objReqRes.OP_CustomerIssue_Serialize(objissue, token);
+            int response = Convert.ToInt32(_utils.PostRequest(requestURI, sData));
+            if (response == 1)
+            {
+                isSuccess = true;
+            }
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return isSuccess;
+    }
+
+    public string GetProfileImageURL(int UserType, string Entity_Code, string token, string Image_Key = "")
+    {
+        if (string.IsNullOrWhiteSpace(Image_Key))
+            Image_Key = Entity_Code;
+
+        string obj = null;
+        string uri = Utils.CLSURL + string.Format("api/common/GetProfileImageURL?UserType={0}&Image_Key={1}&Entity_Code={2}", UserType, Image_Key, Entity_Code);
+        RequestResponse objReqRes = new RequestResponse();
+        try
+        {
+            Utils _utils = new Utils();
+            string response = _utils.HttpRequestResponse(uri);
+            obj = objReqRes.String_Response_Deserialize(JsonConvert.DeserializeObject<string>(response), token);
+            if (!string.IsNullOrWhiteSpace(obj))
+                obj = Utils.CLSURL + obj;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return obj;
+    }
+
+    public static string GetCityState(string pincode, string token)
+    {
+        string cityState = string.Empty;
+        string uri = Utils.CLSURL + string.Format("api/login/GetCityState?PinCode={0}", pincode);
+        Utils _utils = new Utils();
+        RequestResponse objReqRes = new RequestResponse();
+        try
+        {
+            string response = _utils.HttpRequestResponse(uri);
+            cityState = objReqRes.GetCityState_Deserialize(JsonConvert.DeserializeObject<string>(response), token);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return cityState;
+    }
+    public static string GetRequestedWebURL(string token)
+    {
+        string obj = null;
+        string uri = Utils.CLSURL + string.Format("api/common/GetRequestedWebURL");
+        RequestResponse objReqRes = new RequestResponse();
+        try
+        {
+            Utils _utils = new Utils();
+            string response = _utils.HttpRequestResponse(uri);
+            obj = objReqRes.String_Response_Deserialize(JsonConvert.DeserializeObject<string>(response), token);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return obj;
+    }
+
+    public static string GetFAQHTMLBodyContent(string token)
+    {
+        string obj = null;
+        string uri = Utils.CLSURL + string.Format("api/common/GetFAQHTMLContent?UserType={0}", (int)Enumerations.UserType.Patient);
+        RequestResponse objReqRes = new RequestResponse();
+        try
+        {
+            Utils _utils = new Utils();
+            string response = _utils.HttpRequestResponse(uri);
+            obj = objReqRes.String_Response_Deserialize(JsonConvert.DeserializeObject<string>(response), token);
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return obj;
+    }
+
+    public static string GetHowToUseContentV1(string token)
+    {
+        string obj = null;
+        string uri = Utils.CLSURL + string.Format("api/common/GetHowToUseContentV1?UserType={0}", (int)Enumerations.UserType.Patient);
+        RequestResponse objReqRes = new RequestResponse();
+        try
+        {
+            Utils _utils = new Utils();
+            string response = _utils.HttpRequestResponse(uri);
+            obj = objReqRes.String_Response_Deserialize(JsonConvert.DeserializeObject<string>(response), token);
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return obj;
+    }
+
+    public static string ForgotMpinSendOTP(int userType, string userID, string MobileNo, string token,string IPAddress="",string DeviceID="")
+    {
+        string OTP = string.Empty;
+        string uri = Utils.CLSURL + string.Format("api/Patient/ForgotMpinSendOTP_V2");
+        Utils _utils = new Utils();
+        RequestResponse objReq = new RequestResponse();
+
+        try
+        {
+            string postData = objReq.ForgotMpinSendOTP_Request_serialize_V2(userType, userID, MobileNo, token,IPAddress,DeviceID);
+            var response = _utils.PostRequest(uri, postData);
+            OTP = objReq.ForgotMpinSendOTP_Response_Deserialize(JsonConvert.DeserializeObject<string>(response), token);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return OTP;
+    }
+    public static void UpdateUserLoginTime(string userId)
+    {
+        Utils _utils = new Utils();
+        string uri = Utils.CLSURL + string.Format("api/Common/UpdateUserLoginTime?userid={0}", userId);
+        try
+        {
+            string response = _utils.HttpRequestResponse(uri);
+            bool result = JsonConvert.DeserializeObject<bool>(response);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+
+    public static List<CustomerIssue> GetCustomerIssueMaster(string token)
+    {
+        List<CustomerIssue> CustomerIssueMasterList = new List<CustomerIssue>();
+        string uri = Utils.CLSURL + string.Format("api/Patient/GetCustomerIssueMaster");
+        Utils _utils = new Utils();
+        ReqRes_Consumer objReqRes = new ReqRes_Consumer();
+        try
+        {
+            var response = _utils.HttpRequestResponse(uri);
+            CustomerIssueMasterList = objReqRes.GetCustomerIssueMaster_Deserialize(JsonConvert.DeserializeObject<string>(response), token);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return CustomerIssueMasterList;
+    }
+
+    public static string GetPayerHelpLineNumber(string token)
+    {
+        string obj = null;
+        string uri = Utils.CLSURL + string.Format("api/common/GetPayerHelpLineNumber");
+        RequestResponse objReqRes = new RequestResponse();
+        try
+        {
+            Utils _utils = new Utils();
+            string response = _utils.HttpRequestResponse(uri);
+            obj = objReqRes.String_Response_Deserialize(JsonConvert.DeserializeObject<string>(response), token);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return obj;
+    }
+
+    public static string GetCustomerSupportNumber(string token)
+    {
+        string obj = null;
+        string uri = Utils.CLSURL + string.Format("api/common/GetCustomerSupportNumber");
+        RequestResponse objReqRes = new RequestResponse();
+        try
+        {
+            Utils _utils = new Utils();
+            string response = _utils.HttpRequestResponse(uri);
+            obj = objReqRes.String_Response_Deserialize(JsonConvert.DeserializeObject<string>(response), token);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return obj;
+    }
+
+    public static City GetLocationCity(string Latitude, string Longitude, string token)
+    {
+        string requestURI = Utils.CLSURL + string.Format("api/common/GetLocalityDetails?Latitude={0}&Longitude={1}", Latitude, Longitude);
+        City obj = new City();
+        Utils _utils = new Utils();
+        ReqRes_Consumer objReqRes = new ReqRes_Consumer();
+        try
+        {
+            string response = _utils.HttpRequestResponse(requestURI);
+            response = JsonConvert.DeserializeObject<string>(response);
+            obj = objReqRes.City_Deserialize(response, token);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return obj;
+    }
+
+    public static List<GeoLocation> GetLocationByAddress(string ByAddress, string token)
+    {
+        string requestURI = Utils.CLSURL + string.Format("api/common/GetLocalityDetailsByAddress?SearchKey={0}", ByAddress);
+        List<GeoLocation> obj = new List<GeoLocation>();
+        Utils _utils = new Utils();
+        RequestResponse objReqRes = new RequestResponse();
+        try
+        {
+            string response = _utils.HttpRequestResponse(requestURI);
+            response = JsonConvert.DeserializeObject<string>(response);
+            obj = objReqRes.GetGeoLocation_DeSerialize(response, token);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return obj;
+    }
+
+    public static List<Pharmacy> GetPharmacyAvailableCenters_v1(OP_Consumer_Search objCon, int PageNo, int NumRec, string token)
+    {
+        string requestURI = Utils.CLSURL + string.Format("api/pharmacy/GetPharmacyAvailableCenters_v1?PageNo={0}&NumRec={1}", PageNo, NumRec);
+        List<Pharmacy> objlist = new List<Pharmacy>();
+        Utils _utils = new Utils();
+        RequestResponse objReqRes = new RequestResponse();
+        try
+        {
+            string data = objReqRes.GetPhysicianSearch_Com_request_Serialize(objCon, token);
+            string response = _utils.PostRequest(requestURI, data);
+            objlist = objReqRes.GetPharmacyAvailableCenters_Deserialize(JsonConvert.DeserializeObject<string>(response), token);
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return objlist;
+    }
+
+    public static List<OP_Menu_Search> GetPhysicianSplSearchMenu_v1(GeoLocation objGeo, int RadiusLimit = 0, string SearchKey = "", string Pincode = "", int cityId = 0, string token = "")
+    {
+        List<OP_Menu_Search> obj = new List<OP_Menu_Search>();
+        try
+        {
+            string requestURI = Utils.CLSURL + string.Format("api/common/GetPhysicianSplSearchMenu_v2?Latitude={0}&Longitude={1}&RadiusLimit={2}&SearchKey={3}&Pincode={4}&cityId={5}", objGeo.GEO_LATITUDE, objGeo.GEO_LONGITUDE, RadiusLimit, SearchKey, Pincode, objGeo.CITY_ID);
+            
+            Utils _utils = new Utils();
+            RequestResponse objReqRes = new RequestResponse();
+            string response = _utils.HttpRequestResponse(requestURI);
+            obj = objReqRes.GetPhysicianSplSearchMenu_v1_Com_Deserialize(JsonConvert.DeserializeObject<string>(response), token);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return obj;
+    }
+    public static List<Physician> GetPhysicianSearch(OP_Consumer_Search objCon, int PageNo, int NumRec, int lastPhysicianId, string token)
+    {
+        string requestURI = Utils.CLSURL + string.Format("api/common/GetPhysicianSearch?PageNo={0}&NumRec={1}&lastPhysicianId={2}", PageNo, NumRec, lastPhysicianId);
+        List<Physician> obj = new List<Physician>();
+        Utils _utils = new Utils();
+        RequestResponse objReqRes = new RequestResponse();
+        try
+        {
+            string data = objReqRes.GetPhysicianSearch_Com_request_Serialize(objCon, token);
+            string response = _utils.PostRequest(requestURI, data);
+            obj = objReqRes.GetPhysicianSearch_Com_Deserialize(JsonConvert.DeserializeObject<string>(response), token);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return obj;
+    }
+
+
+    public static int SendMPIN_V2(string PayerCode, string MobileNo, string EmailId,string EmployeeId,string mpin, string App_Guid)
+    {
+        string requestURI = Utils.CLSURL + string.Format("api/Login/SendMPIN_V2?PayerCode={0}&MobileNo={1}&EmailId={2}&EmployeeId={3}&mpin={4}&App_Guid={5}", PayerCode, MobileNo, EmailId, EmployeeId, mpin, App_Guid);
+        int result ;
+        try
+        {
+            Utils _utils = new Utils();
+            string response = _utils.HttpRequestResponse(requestURI);
+            result = JsonConvert.DeserializeObject<int>(response);
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return result;
+    }
+
+
+    public static int SendMPIN_V3(string PayerCode, string MobileNo, string EmailId, string EmployeeId, string mpin, string App_Guid, string IPAddress, string DeviceID)
+    {
+        string requestURI = Utils.CLSURL + string.Format("api/Login/SendMPIN_V3?PayerCode={0}&MobileNo={1}&EmailId={2}&EmployeeId={3}&mpin={4}&App_Guid={5}&IPAddress={6}&DeviceID={7}", PayerCode, MobileNo, EmailId, EmployeeId, mpin, App_Guid, IPAddress, DeviceID);
+        int result;
+        try
+        {
+            Utils _utils = new Utils();
+            string response = _utils.HttpRequestResponse(requestURI);
+            result = JsonConvert.DeserializeObject<int>(response);
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return result;
+    }
+
+    public string loginAuditLog(string userID, string IPAddress, string DeviceId, string SessionID, string Audit_type, string Event_type)
+    {
+        string requestURI = Utils.CLSURL + string.Format("api/Login/loginAuditLog?userID={0}&IPAddress={1}&DeviceId={2}&SessionID={3}&Audit_type={4}&Event_type={5}", userID, IPAddress, DeviceId, SessionID, Audit_type, Event_type);
+        string Result = null;
+        try
+        {
+            Utils _utils = new Utils();
+            string response = _utils.HttpRequestResponse(requestURI);
+            Result = JsonConvert.DeserializeObject<string>(response);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return Result;
+    }
+
+    public static string loginAuditLog(string userID, string user_type, string IPAddress, string DeviceId, string SessionID, string Audit_type, string Event_type)
+    {
+        string uri = Utils.CLSURL + string.Format("api/Login/loginAuditLog?userID={0}&user_type={1}&IPAddress={2}&DeviceId={3}&SessionID={4}&Audit_type={5}&Event_type={6}", userID, user_type, IPAddress, DeviceId, SessionID, Audit_type, Event_type);
+        string Result = null;
+        try
+        {
+            Utils _utils = new Utils();
+          
+            string response = _utils.HttpRequestResponse(uri);
+            if (response != null && response != string.Empty)
+                Result = JsonConvert.DeserializeObject<string>(response);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return Result;
+    }
+
+    public static bool ResetLoginOTP(string User_Id, string User_Type)
+    {
+        string uri = Utils.CLSURL + string.Format("api/Login/ResetLoginOTP?User_Id={0}&User_Type={1}", User_Id, User_Type);
+        bool Result = false;
+        try
+        {
+            Utils _utils = new Utils();
+
+            string response = _utils.HttpRequestResponse(uri);
+            if (response != null && response != string.Empty)
+                Result = JsonConvert.DeserializeObject<bool>(response);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return Result;
+    }
+}

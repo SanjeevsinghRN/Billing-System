@@ -1,0 +1,29 @@
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build output
+bin/
+obj/
+
+# Logs
+*.log
+*.txt
+
+# Packages
+packages/
+*.nupkg
+*.snupkg
+
+# Publish
+publish/
+
+# Azure DevOps agent (never commit)
+agent/
+
+# OS files
+Thumbs.db
+.DS_Store

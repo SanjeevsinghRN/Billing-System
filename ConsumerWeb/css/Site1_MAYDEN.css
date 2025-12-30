@@ -1,0 +1,678 @@
+﻿/*-----------------BackGround Colors-----------------*/
+
+.Mainloginbox {
+    /* background-color: white !important;*/
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 1), rgba(240, 230, 250, 1));
+}
+
+.loginbox1 {
+    background-color: #f6f4f5 !important;
+}
+
+.loginbox2 {
+    background-color: #CFCBCA !important;
+}
+
+.loginbox3 {
+    background-color: #fff !important;
+}
+
+.loginbox4 {
+    background-color: #E7E6E4 !important;
+}
+
+.loginbox5 {
+    background-color: #c9c9d3 !important;
+}
+
+.loginbox6 {
+    background-color: white !important;
+}
+
+.loginbox7 {
+    background-color: #F58121 !important;
+    color: white !important;
+}
+
+.loginbox8 {
+    background-color: #f6f4f5 !important;
+}
+
+.loginbox9 {
+    background-color: #cfcbca !important;
+}
+
+.loginbox10 {
+    background-color: transparent !important;
+}
+
+.loginbox11 {
+    background-color: #E7E6E4 !important;
+}
+
+.loginbox12 {
+    background-color: #f6f4f5 !important;
+}
+
+.loginbox13 {
+    background-color: white !important;
+}
+
+.loginbox14 {
+    background-color: #f6f4f5 !important;
+}
+.loginbox15 {
+    color: white !important;
+    background-color: #f58220 !important;
+}
+
+.loginbox16 {
+    background-color: #F58121 !important;
+    color: white !important;
+}
+
+.loginbox17 {
+    /*background-color: #f58220 !important;*/
+    color: white;
+}
+
+.loginbox19 {
+    background-color: #f6f4f5 !important;
+}
+
+.loginbox20 {
+    background-color: #f6f4f5 !important;
+}
+
+.loginbox21 {
+    background-color: #a41c2b
+}
+/*----------------------------------------------------*/
+
+
+/*------------------------text Color-------------------*/
+
+.DefaultTextColor {
+    color: black !important;
+}
+
+.TextColor1 {
+    color: #B12A30 !important;
+}
+
+.TextColor2 {
+    color: black !important;
+}
+
+.TextColor3 {
+    color: #015CAD !important;
+}
+
+.TextColor4 {
+    color: #000000 !important;
+}
+
+.TextColor5 {
+    color: #005AAB !important;
+}
+
+.TextColor6 {
+    color: #7690b7 !important;
+}
+
+.TextColor7 {
+    color: #afb0b0 !important;
+}
+
+.TextColor8 {
+    color: #015aac !important;
+}
+
+.TextColor9 {
+    color: gray !important;
+}
+
+.TextColor10 {
+    color: #777777 !important;
+}
+
+.TextColor11 {
+    color: #e8353b !important;
+}
+
+.TextColor12 {
+    color: #003366 !important;
+}
+
+.TextColor13 {
+    color: #035AA9 !important;
+}
+
+.TextColor14 {
+    color: #58585a !important;
+}
+
+.TextColor15 {
+    color: #7f7f7f !important;
+}
+
+.TextColor16 {
+    color: #035BAD !important;
+}
+
+.TextColor17 {
+    color: #808080 !important;
+}
+
+.TextColor18 {
+    color: blue !important;
+}
+
+.TextColor19 {
+    color: #243f76 !important;
+}
+
+.TextColor20 {
+    color: red !important;
+}
+
+.TextColor21 {
+    color: orange !important;
+}
+
+.TextColor22 {
+    color: blue !important;
+}
+.TextColor23 {
+    color: #294f7f !important;
+}
+.TextColor24 {
+    color: #828890 !important;
+}
+/*----------------------------------------------------*/
+
+/*------------------------Border Style-------------------*/
+.Borderstyle1 {
+    border: none;
+}
+
+.Borderstyle2 {
+    border: 0px;
+}
+
+.DateTime-Picker-Border {
+    border-bottom: solid #cfcbca;
+    border: solid 1px;
+    background-color: transparent;
+}
+
+
+
+.Textbox-Border {
+    border: none;
+}
+
+.Textbox-Border1 {
+    border: none;
+}
+
+.Textbox-Border2 {
+    border: none;
+}
+
+.Textbox-Border3 {
+    border: none;
+}
+
+
+.Borderstyle-left {
+    border: none;
+}
+
+.Borderstyle-right {
+    border: none;
+}
+
+.Borderstyle-top {
+    border: none;
+}
+
+.Borderstyle-bottom {
+    border: none;
+}
+
+/*----------------------------------------------------*/
+
+
+.heigth100p {
+    height: 100%;
+}
+
+.NewTras_roundOrange {
+    padding: 5px 5px 5px 5px;
+    background-color: #cfcbca;
+    text-align: center;
+    border-radius: 25px;
+    color: #58585a;
+    cursor: default;
+}
+
+.memberImageContainer {
+    width: 324px; /* or 70%, or what you want*/
+    height: 203px; /* or 70%, or what you want*/
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url('../images/EcardTemplate.png');
+}
+
+.memberecard {
+    width: 50px; /*or 70%, or what you want*/
+    height: 50px; /*or 70%, or what you want*/
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url(<%=_ECARD_WATERMARK1%>);
+    /*background-image:url('../images/BR_28795_Watermark.jpg');*/
+}
+
+.memberButtonOptions {
+    width: 60px; /* or 70%, or what you want*/
+    height: 35px; /* or 70%, or what you want*/
+    background-size: auto;
+    background-position: center;
+    background-repeat: no-repeat;
+    float: left;
+}
+
+.memberPanelStyle {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.defaulCursor {
+    cursor: default;
+}
+
+
+
+.graydiv {
+    color: #808080;
+    padding: 5px 5px 5px 5px;
+    font-weight: bold;
+}
+
+.grayundeline {
+    border-bottom: .5px solid lightgray;
+    padding: 5px 5px 5px 5px;
+}
+
+.profileDiv {
+    /*border-bottom-right-radius: 8px;
+            border-bottom-left-radius: 8px;*/
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+    margin: 10px 10px 10px 10px;
+    /*border: 1px lightgray solid;*/
+    /*border-color: #cfcbca;
+    background-color: #cfcbca;*/
+    /*min-height: 80px;*/
+    overflow: hidden;
+    cursor: pointer;
+    background-color: #f6f4f5;
+    padding: 0px 0px 20px 0px;
+}
+
+.profiletextboxstyle {
+    border: none;
+    height: 20px;
+    width: 100%;
+    background-color: #f6f4f5;
+}
+
+.graydiv_1 {
+    color: #808080;
+    padding: 5px 5px 5px 5px;
+    font-weight: bold;
+}
+
+.grayundeline_1 {
+    border-bottom: .5px solid lightgray;
+    padding: 5px 5px 5px 5px;
+}
+
+
+.profileDiv_1 {
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+    margin: 10px 10px 10px 10px;
+    /*border: 1px lightgray solid;*/
+    /*border-color: #cfcbca;
+    background-color: #cfcbca;*/
+    /*min-height: 80px;*/
+    overflow: hidden;
+    cursor: pointer;
+    background-color: #f6f4f5;
+    padding: 0px 0px 30px 0px;
+}
+
+.profiletextboxstyle_1 {
+    border: none;
+    height: 20px;
+    width: 100%;
+    background-color: #f6f4f5;
+}
+
+.profileDiv_subdiv_1 {
+    border-bottom-right-radius: 22px;
+    border-bottom-left-radius: 22px;
+    border-top-right-radius: 22px;
+    border-top-left-radius: 22px;
+    margin: 20px 8px 10px 8px;
+    border: 1px lightgray solid;
+    /*border-color: #cfcbca;
+    background-color: #cfcbca;*/
+    /*min-height: 80px;*/
+    overflow: hidden;
+    cursor: pointer;
+    background-color: #f6f4f5;
+    padding: 15px 45px 20px 45px;
+}
+
+.profileDiv_subdiv_small_1 {
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    margin: 28px 10px 10px 10px;
+    border: 1px lightgray solid;
+    /*border-color: #cfcbca;
+    background-color: #cfcbca;*/
+    /*min-height: 80px;*/
+    overflow: hidden;
+    cursor: pointer;
+    background-color: #f6f4f5;
+    padding: 10px 10px 10px 10px;
+}
+
+.profileDiv_subdiv_small1_1 {
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    margin: 23px 5px 5px 5px;
+    border: 1px lightgray solid;
+    overflow: hidden;
+    cursor: pointer;
+    background-color: #f6f4f5;
+    padding: 5px 5px 5px 5px;
+}
+
+.headerStyle_PL {
+    height: 40px;
+    background-color: #e7e6e4;
+    width: 100%;
+    padding: 5px 5px 5px 5px;
+    margin-top: 10px;
+}
+
+.transcationStyle_PL {
+    padding: 5px 5px 5px 5px;
+    background-color: white;
+    text-align: center;
+    border-radius: 25px;
+    color: #58595b;
+    background-color: #cfcbca;
+    cursor: pointer;
+}
+
+.prescListStyle_PL {
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+    margin: 5px 10px 5px 10px;
+    border: 1px black solid;
+    border-color: #cfcbca;
+    background-color: #cfcbca;
+    /*min-height: 80px;*/
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.listViewHeaderStyle_PL {
+    padding: 5px 5px 5px 5px;
+    background-color: #cfcbca;
+}
+
+.listViewContentStyle_PL {
+    background-color: white;
+    font-size: smaller;
+    min-height: 50px;
+    padding: 5px 5px 5px 5px;
+    overflow: hidden;
+}
+
+.listViewframeStyle_PL {
+    padding: 5px 5px 5px 5px;
+    background-color: #cfcbca;
+    text-align: center;
+    border-radius: 20px;
+    color: #58585a;
+    cursor: default;
+}
+
+.listViewbuttonStyle_PL {
+    color: #58585a;
+    cursor: pointer;
+}
+
+.divFixedBotton_AC {
+    margin: 5px 0px 0px 0px;
+    border: none;
+    /*min-height: 80px;*/
+    cursor: pointer;
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    left: 0px;
+}
+
+.divAtBottom-PH {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    align-items: center;
+    align-content: center;
+    left: 0px;
+    right: 0px;
+}
+
+.Select-style {
+    border: solid 1px #ea5b0c;
+    background-color: #ea5b0c;
+}
+
+.Unelect-style {
+    border: solid 1px #ea5b0c;
+    background-color: #1fc47a;
+}
+
+.Btn-Select-style {
+    background-color: #005aab !important;
+    color: white !important;
+}
+
+.Btn-UnSelect-style {
+    background-color: #cfcbca !important;
+    color: #58595b !important;
+}
+
+.blueButton {
+    background-color: #003366;
+    border: 1px solid #003366;
+    padding: 10px 12px;
+    color: white;
+    margin-top: 11px;
+}
+
+
+.PrescriptionPatientDetailsTop {
+    background-color: #cfcbca !important;
+    border-radius: 10px 10px 0px 0px !important;
+    font-size: 14px !important;
+    margin: 0px -10px 0px -10px !important;
+    padding: 1px 0px 1px 0px !important;
+}
+
+.PrescriptionPatientDetailsBottom {
+    background-color: #f6f4f5 !important;
+    border-radius: 0px 0px 10px 10px !important;
+    font-size: 14px !important;
+    margin: 0px -10px 0px -10px !important;
+    padding: 6px 6px 6px 6px !important;
+}
+
+
+.GrayBackgroundText {
+    background-color: #cfcbca;
+    text-align: center;
+    border-radius: 15px;
+    /*padding: 2px;*/
+    color: #6e6e70;
+}
+
+.LightGrayBackground {
+    background-color: #f6f4f5 !important;
+    border-radius: 10px 10px 10px 10px !important;
+    font-size: 14px !important;
+    margin: 4px -10px 4px -10px !important;
+    padding: 5px 6px 7px 6px !important;
+}
+
+.txtBoxClass {
+    border-radius: 19px;
+    border: none;
+    height: 30px
+}
+
+.OrangeBackgroundText {
+    background-color: #f68121;
+    text-align: center;
+    border-radius: 15px;
+    padding: 5px;
+    color: white;
+}
+
+
+@media screen and (max-width: 767px) {
+    .font90rem {
+        font-size: 0.90rem !important;
+    }
+
+    .SaveButtnFnt {
+        font-size: 1.8rem !important;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .new-font-size1 {
+        font-size: 12px !important;
+    }
+
+    .new-font-size2 {
+        font-size: 13px !important;
+    }
+
+    .new-font-size3 {
+        font-size: 11px !important;
+    }
+
+    .new-font-size4 {
+        font-size: 10px !important;
+    }
+
+    .new-font-size5 {
+        font-size: 14px !important;
+    }
+
+    .new-font-size6 {
+        font-size: 15px !important;
+    }
+}
+
+.btn-round-lightgray {
+    display: inline-block;
+    padding: 2px 8px;
+    margin-bottom: 0;
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 1px solid #cfcbca;
+    border-radius: 19px;
+    background-repeat: repeat-x;
+    color: black;
+    background-image: linear-gradient(to bottom, #cfcbca 0%, #cfcbca 100%);
+}
+
+.labelWrapStyle {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    position: absolute;
+    max-width: 95%;
+}
+
+.labelWrapStyle1 {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.IL-Padding-0px {
+}
+
+.serviceratingSubmitbtn {
+    padding-top: 15px;
+    height: 50px
+}
+
+.hallfWidthButtom_darkgray {
+    width: 100%;
+    color: #FFFFFF;
+    background-color: #a41c2b;
+    border: none;
+    height: 35px;
+}
+
+.locationIcon {
+    height: 25px !important;
+    width: 30px !important;
+}
+
+.FullWidthButtom {
+    width: 100%;
+    height: 40px;
+    border-radius: 0px;
+}
+
+.Submit-btn-style {
+    width: 100%;
+    height: 40px;
+    border-radius:0px;
+}
+
+.text-Center {
+    text-align: center;
+}

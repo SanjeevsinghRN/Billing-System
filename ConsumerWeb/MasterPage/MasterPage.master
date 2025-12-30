@@ -1,0 +1,119 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage_MasterPage"  %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title><%=PageTitle %></title>    
+    <meta name="description" id="metadescription" runat="server" />
+    <meta name="keywords" id="metakeyword" runat="server" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <link href="../css/bootstrap.css" rel="stylesheet" />
+    <link href="../css/site.css?v=1.1.65" rel="stylesheet" />
+    <script src="Scripts/jquery-3.2.1.min.js"></script>
+    <script src="Scripts/bootbox.min.js"></script>
+    <script src="Scripts/bootstrap.js"></script>
+    <script src="Scripts/respond.js"></script>
+    <script src="Scripts/Common.js"></script>
+    <script>
+        $("#myModal").on("show", function () {    // wire up the OK button to dismiss the modal when shown
+            $("#myModal a.btn").on("click", function (e) {
+                console.log("button pressed");   // just as an example...
+                $("#myModal").modal('hide');     // dismiss the dialog
+            });
+        });
+
+        $("#myModal").on("hide", function () {    // remove the event listeners when the dialog is dismissed
+            $("#myModal a.btn").off("click");
+        });
+
+        $("#myModal").on("hidden", function () {  // remove the actual elements from the DOM when fully hidden
+            $("#myModal").remove();
+        });
+
+        $("#myModal").modal({                    // wire up the actual modal functionality and show the dialog
+            "backdrop": "static",
+            "keyboard": true,
+            "show": true                     // ensure the modal is shown immediately
+        });
+    </script>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <style>
+         body {
+        /*background-image: <%=EvaluateBG(ENTITY_BG_IMG)%> !important;*/
+        display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+background: linear-gradient(135deg, #3F3D56, #5A5870, #75738A);
+        }  
+         
+        [id$=lnkbtnSendOTP],[id$=lnkUnableToLogin],[id$=lnkbtnLoginOption],[id$=btnRegister],.mycheckbox label,[id$=lnkbtnSendOTP] {
+            color: <%=ENTITY_FONT_COLOR%> !important;
+        }
+    </style>
+</head>
+<body <%--style="background-image: url('Images/SAST/TEST/background_login.jpg'); background-size: cover; /* Ensures the image covers the entire page */
+            background-repeat: no-repeat; /* Prevents the image from repeating */
+            background-position: center; /* Centers the image */
+            margin: 0; /* Removes default margin */
+            height: 100vh; /* Ensures the body takes up the full viewport height */
+            font-family: Arial, sans-serif;"--%>>
+<%--<body >--%>
+    <form id="form1" runat="server">
+        <asp:HiddenField ID="Audit_LogUpdate" runat="server" />
+        <asp:HiddenField ID="Audit_UserId" runat="server" />
+        <%--        <div class="navbar">--%>
+        <div class="container">
+           <div class="text-center" style="margin-top:5px;">
+    <asp:Image ID="imgEntityLogo" runat="server" Style="border-radius: 30px; display:none" />
+</div>
+
+            <div class="navbar-collapse collapse" style="margin-top: 25px;">
+            </div>
+        </div>
+        <%--        </div>--%>
+        <div class="container" style="width: 94%;">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+        <%--        <div class="container">
+            <hr />
+            <footer>
+                <p>
+                    &copy;
+                    <asp:Label ID="lblYear" runat="server"></asp:Label>
+                    - CMCHIS
+                </p>
+            </footer>
+        </div>--%>
+    </form>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-111992492-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'UA-111992492-1');
+    </script>
+</body>
+</html>

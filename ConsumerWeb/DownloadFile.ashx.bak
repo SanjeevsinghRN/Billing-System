@@ -1,0 +1,294 @@
+﻿<%@ WebHandler Language="C#" Class="DownloadFile" %>
+
+using System;
+using System.Web;
+using System.Net.Http;
+using System.Net;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using RN.MOBILE_COMMON;
+using System.Web.SessionState;
+using System.Threading;
+public class DownloadFile : IHttpHandler, IRequiresSessionState
+{
+    public void ProcessRequest(HttpContext context)
+    {
+        try
+        {
+            string fillpath = System.Configuration.ConfigurationManager.AppSettings.Get("TempFileLoc");
+            bool Isdownloaded = false;
+            bool IsLocalFile = false;
+            string DownloadFileName = "";
+            if (!string.IsNullOrWhiteSpace(Convert.ToString(context.Request.QueryString["query"])))
+            {
+                string QueryString = Utils.Decrypt(context.Request.QueryString["query"].ToString());
+                List<QueryStringClass> _querylst = new List<QueryStringClass>();
+                foreach (string value in QueryString.Split('&'))
+                {
+                    QueryStringClass _query = new QueryStringClass();
+                    if (value.Split('=').Length == 2)
+                    {
+                        _query.Key = value.Split('=')[0];
+                        _query.Value = value.Split('=')[1];
+                    }
+                    else
+                    {
+                        _query.Key = value.Replace("=", "");
+                        _query.Value = "";
+                    }
+                    _querylst.Add(_query);
+                }
+
+                if (_querylst.Count > 0)
+                {
+                    Enumerations.DocumentType DocType = Enumerations.DocumentType.FamilyCard;
+
+                    string FileName = string.Empty, TRANSACTION_TYPE = string.Empty, prescriptionid = string.Empty, OrderNo = string.Empty, reqType = string.Empty;
+                    if (_querylst[0].Value == "PolicyCopy")
+                    {
+                        DownloadFileName = "Group TakeCare Policy Copy.pdf";
+                        PatientModel _patientModel = new PatientModel();
+                        FileName = _querylst.Where(x => x.Key == "PolicyFileName").SingleOrDefault().Value;
+                        string requestURI = Utils.CLSURL + string.Format("api/patient/DownloadPolicyCopyFile?fileName={0}", FileName);
+                        Isdownloaded = _patientModel.DownloadFile(requestURI, FileName, fillpath, DownloadFileName).Result;
+                        DocType = Enumerations.DocumentType.PolicyCopy;
+                    }
+                    else if (_querylst[0].Value == "RecieptFile")
+                    {
+                        FileName = _querylst.Where(x => x.Key == "fileName").SingleOrDefault().Value;
+                        TRANSACTION_TYPE = _querylst.Where(x => x.Key == "transType").SingleOrDefault().Value;
+                        prescriptionid = _querylst.Where(x => x.Key == "pid").SingleOrDefault().Value;
+                        OrderNo = _querylst.Where(x => x.Key == "OrderNo").SingleOrDefault().Value;
+                        reqType = _querylst.Where(x => x.Key == "reqType").SingleOrDefault().Value;
+
+                        Isdownloaded = PatientModel.DownloadRecieptFile(FileName, Convert.ToInt32(TRANSACTION_TYPE), prescriptionid, OrderNo, reqType, fillpath);
+                        if (reqType.ToUpper() == "PRESCRIPTION_RECEIPT")
+                            DocType = Enumerations.DocumentType.Prescription;
+                        else
+                            DocType = Enumerations.DocumentType.OrderReceipt;
+                    }
+                    else if (_querylst[0].Value == "DiagnosticRpt")
+                    {
+                        FileName = _querylst.Where(x => x.Key == "fileName").SingleOrDefault().Value;
+                        string innerFolder = _querylst.Where(x => x.Key == "ClaimId").SingleOrDefault().Value;
+                        PatientModel _patientModel = new PatientModel();
+                        DocType = Enumerations.DocumentType.DiagnosticReport;
+                        _patientModel.DownloadDiagnosisFile(FileName, innerFolder, fillpath, DocType.ToString());
+
+                    }
+                    else if (_querylst[0].Value == "TestRpt")
+                    {
+                        FileName = _querylst.Where(x => x.Key == "fileName").SingleOrDefault().Value;
+                        string innerFolder = _querylst.Where(x => x.Key == "PrescId").SingleOrDefault().Value;
+                        PatientModel _patientModel = new PatientModel();
+                        _patientModel.DownloadMinorTestReport(FileName, innerFolder, fillpath);
+                        DocType = Enumerations.DocumentType.MinorTestReport;
+                    }
+                    else if (_querylst[0].Value == "VitalReport")
+                    {
+                        PatientModel _patientModel = new PatientModel();
+                        FileName = _querylst.Where(x => x.Key == "ATTACH_FILENAME").SingleOrDefault().Value;
+                        string patid = _querylst.Where(x => x.Key == "PATIENT_ID").SingleOrDefault().Value;
+
+                        string requestURI = Utils.CLSURL + string.Format("api/patient/DownloadAttachmentFile?PATIENT_ID={0}&ATTACH_FILENAME={1}", patid, FileName);
+                        Isdownloaded = _patientModel.DownloadFile(requestURI, FileName, fillpath).Result;
+                        DocType = Enumerations.DocumentType.VitalReport;
+                    }
+                    else if (_querylst[0].Value == "CardDownload")
+                    {
+                        FileName = _querylst.Where(x => x.Key == "FileName").SingleOrDefault().Value;
+                        string patid = _querylst.Where(x => x.Key == "PATIENT_ID").SingleOrDefault().Value;
+                        //string memberId = _querylst.Where(x => x.Key == "MEMBER_ID").SingleOrDefault().Value;
+                        //Isdownloaded = PatientModel.DownloadEcard_V1(patid, FileName, fillpath, memberId);
+                        Isdownloaded = PatientModel.DownloadEcard(patid, FileName, fillpath);
+                        DocType = Enumerations.DocumentType.FamilyCard;
+                    }
+                    else if (_querylst[0].Value == "DiagnosticAllRpt")
+                    {
+                        string FileName1 = _querylst.Where(x => x.Key == "fileName").SingleOrDefault().Value;
+                        string RootFolder = _querylst.Where(x => x.Key == "RootFolder").SingleOrDefault().Value;
+                        Isdownloaded = PatientModel.DownloadCombinedDiagnosisFile(FileName1, RootFolder, fillpath);
+                        FileName = RootFolder + "_Diagnostic.pdf";
+                        DocType = Enumerations.DocumentType.DiagnosticAllReport;
+                    }
+                    else if (_querylst[0].Value == "ReimburementAttachment")
+                    {
+                        FileName = _querylst.Where(x => x.Key == "fileName").SingleOrDefault().Value;
+                        string patientID = _querylst.Where(x => x.Key == "patientID").SingleOrDefault().Value;
+                        DocType = Enumerations.DocumentType.ReimbursementAttachment;
+                        fillpath = System.Configuration.ConfigurationManager.AppSettings.Get("TempReimbursementAttachmentsPath_Save") + patientID + "\\";
+                        if (!Directory.Exists(fillpath))
+                            Utils.CreateDirectoryRecursive(fillpath);
+                        FileInfo file1 = new FileInfo(fillpath + FileName);
+                        if (file1.Exists)
+                        {
+                            Isdownloaded = true;
+                            IsLocalFile = true;
+                        }
+                        if (!Isdownloaded)
+                            Isdownloaded = PatientModel.DownloadRemAttachmentFile(patientID, FileName, fillpath);
+                    }
+                    else if (_querylst[0].Value == "REM_AL")
+                    {
+                        PatientModel _patientModel = new PatientModel();
+                        FileName = _querylst.Where(x => x.Key == "ATTACH_FILENAME").SingleOrDefault().Value;
+                        string patid = _querylst.Where(x => x.Key == "PATIENT_ID").SingleOrDefault().Value;
+
+                        string requestURI = Utils.CLSURL + string.Format("api/patient/Download_REM_AL_File?PATIENT_ID={0}&ATTACH_FILENAME={1}", patid, FileName);
+                        Isdownloaded = _patientModel.DownloadFile(requestURI, FileName, fillpath).Result;
+                        DocType = Enumerations.DocumentType.Reimbursement_AL;
+                    }
+                    else if(_querylst[0].Value == "DIAG_INVOICE")
+                    {
+                        FileName = _querylst.Where(x => x.Key == "fileName").SingleOrDefault().Value;
+                        string innerFolder = _querylst.Where(x => x.Key == "pid").SingleOrDefault().Value;
+                        PatientModel _patientModel = new PatientModel();
+                        DocType = Enumerations.DocumentType.Invoice;
+                        _patientModel.DownloadDiagnosisFile(FileName, innerFolder,fillpath, DocType.ToString());
+
+                    }
+
+                    if (!string.IsNullOrEmpty(DownloadFileName))
+                        FileName = DownloadFileName;
+
+                    PatientModel.InsertAuditFileLog(Convert.ToString(context.Session["IPAddress"]), Convert.ToString(context.Session[SessionConstant.UserID]), context.Session.SessionID, Convert.ToString(context.Session["DEVICEID"]), FileName, (int)RN.MOBILE_COMMON.Enumerations.FileActionType.Download, DocType);
+
+                    #region download to client machine start
+                    //if (!string.IsNullOrEmpty(DownloadFileName))
+                    //    FileName = DownloadFileName;
+                    FileInfo file = new System.IO.FileInfo(fillpath + FileName);
+                    if (file.Exists)
+                    {
+                        string ContentType = "text/html";
+                        switch (Path.GetExtension(FileName.ToLower()))
+                        {
+                            case ".pdf":
+                                ContentType = "application/pdf";
+                                break;
+                            case ".jpg":
+                                ContentType = "image/jpeg";
+                                break;
+                            default:
+                                ContentType = "application/octet-stream";
+                                break;
+
+                        }
+
+                        context.Response.Clear();
+                        context.Response.BufferOutput = true;
+                        context.Response.ContentType = ContentType;
+                        context.Response.AddHeader("Content-Disposition", "attachment; filename=" + file.Name);
+                        context.Response.AddHeader("Content-Length", file.Length.ToString());
+                        context.Response.ContentType = ContentType;
+                        context.Response.TransmitFile(file.FullName);
+                        context.Response.Flush();
+                        if (!IsLocalFile)
+                            file.Delete();
+                        Isdownloaded = true;
+                    }
+                    else
+                    {
+                        Isdownloaded = false;
+                    }
+
+                    #endregion download to client machine end
+                    string mssg = "";
+                    if (!Isdownloaded)
+                    {
+                        if (context.Response.StatusCode == (int)System.Net.HttpStatusCode.ServiceUnavailable
+                       || context.Response.StatusCode == (int)System.Net.HttpStatusCode.Gone ||
+                        context.Response.StatusCode == (int)System.Net.HttpStatusCode.InternalServerError ||
+                        context.Response.StatusCode == (int)System.Net.HttpStatusCode.RequestTimeout
+                      )
+                        {
+                            mssg = "Unable to download file. Please try after some time.";
+                        }
+                        else if (context.Response.StatusCode == (int)HttpStatusCode.NotFound)
+                        {
+                            mssg = "File not available. Please try after some time.";
+
+                        }
+                        else
+                            mssg = "File not available. Please try after some time.";
+
+                        var msg = string.Format(@"<script language='javascript'>alert('" + mssg + "');window.open('','_self').close();</script>");
+                        context.Response.Write(msg);
+                    }
+                    else
+                    {
+                        Thread.Sleep(20000);
+                        var msg = string.Format(@"<script language='javascript'>window.open('','_self').close();</script>");
+                        context.Response.Write(msg);
+                    }
+                }
+                else
+                {
+                    var msg = string.Format(@"<script language='javascript'>alert('Unable to download file. Please try after some time.');window.open('','_self').close();</script>");
+                    context.Response.Write(msg);
+                }
+
+            }
+            else
+            {
+                var msg = string.Format(@"<script language='javascript'>window.open('','_self').close();</script>");
+                context.Response.Write(msg);
+            }
+        }
+        catch (WebException ex)
+        {
+            string mssg = "";
+            if (ex.Status == WebExceptionStatus.ProtocolError && ex.Response != null)
+            {
+                var resp = (HttpWebResponse)ex.Response;
+                if (resp.StatusCode == HttpStatusCode.NotFound)
+                {
+                    mssg = "File not available. Please try after some time.";
+                }
+                else
+                {
+                    mssg = "Unable to download file. Please try after some time.";
+                }
+                var msg = string.Format(@"<script language='javascript'>alert('" + mssg + "');window.open('','_self').close();</script>");
+                context.Response.Write(msg);
+            }
+            else
+            {
+                mssg = "Unable to download file. Please try after some time.";
+                var msg = string.Format(@"<script language='javascript'>alert('" + mssg + "');window.open('','_self').close();</script>");
+                context.Response.Write(msg);
+                ErrorLogger.LogMessage(ex, Utils.ErrorLogPath);
+            }
+
+
+        }
+        catch (Exception ex)
+        {
+            ErrorLogger.LogMessage(ex, Utils.ErrorLogPath);
+            string mssg = "Unable to download file. Please try after some time.";
+            var msg = string.Format(@"<script language='javascript'>alert('" + mssg + "');window.open('','_self').close();</script>");
+            context.Response.Write(msg);
+
+        }
+
+        finally
+        {
+            context.Response.End();
+        }
+    }
+
+    public bool IsReusable
+    {
+        get
+        {
+            return false;
+        }
+    }
+
+}
+
+public class QueryStringClass
+{
+    public string Key { get; set; }
+    public string Value { get; set; }
+}

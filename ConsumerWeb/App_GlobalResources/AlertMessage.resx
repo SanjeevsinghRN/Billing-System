@@ -1,0 +1,498 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Alert_Msg_Header" xml:space="preserve">
+    <value>CMCHIS</value>
+  </data>
+  <data name="Confirm_MPIN_Req" xml:space="preserve">
+    <value>Confirm MPIN cannot be empty</value>
+  </data>
+  <data name="Failed_To_Validate_Login" xml:space="preserve">
+    <value>Failed to validate</value>
+  </data>
+  <data name="Forgot_Validate_Failed" xml:space="preserve">
+    <value>Validation failed</value>
+  </data>
+  <data name="Invalid_Login_Mobile_No" xml:space="preserve">
+    <value>Please Enter 10 Digit Mobile Number</value>
+  </data>
+  <data name="Invalid_MPIN" xml:space="preserve">
+    <value>Invalid MPIN entered</value>
+  </data>
+  <data name="Invalid_OTP" xml:space="preserve">
+    <value>Invalid OTP entered</value>
+  </data>
+  <data name="Invalid_Reg_Mobile_No" xml:space="preserve">
+    <value>Please enter registered mobile number</value>
+  </data>
+  <data name="MPIN_Conf_Min_Len_Req" xml:space="preserve">
+    <value>Please enter atleast 6 digit confirm MPIN</value>
+  </data>
+  <data name="MPIN_Conf_MPIN_Not_Match" xml:space="preserve">
+    <value>New MPIN and confirm MPIN did not match</value>
+  </data>
+  <data name="MPIN_Empty" xml:space="preserve">
+    <value>New MPIN cannot be empty</value>
+  </data>
+  <data name="MPIN_Min_Len_Req" xml:space="preserve">
+    <value>Please enter atleast 6 digit new MPIN</value>
+  </data>
+  <data name="OTP_Sending_Failed" xml:space="preserve">
+    <value>Failed to send OTP</value>
+  </data>
+  <data name="OTP_Sent" xml:space="preserve">
+    <value>OTP sent to registered mobile no and email id.</value>
+  </data>
+  <data name="Password_Changed" xml:space="preserve">
+    <value>MPIN changed successfully</value>
+  </data>
+  <data name="Wrong_Login_Credentials" xml:space="preserve">
+    <value>Wrong Credentials</value>
+  </data>
+  <data name="NoRecordDiag" xml:space="preserve">
+    <value>No matching prescription found. Try again once you have prescription with diagnostic test​/tests</value>
+  </data>
+  <data name="NoRecordHC" xml:space="preserve">
+    <value>No matching health packages available as of now</value>
+  </data>
+  <data name="Controls_Not_Configured" xml:space="preserve">
+    <value>Controls not configured.</value>
+  </data>
+  <data name="Feedback_Rating" xml:space="preserve">
+    <value>Feedback regarding service has been submitted successfully.</value>
+  </data>
+  <data name="Feedback_Rating_Error" xml:space="preserve">
+    <value>Unable to submit. Please try again.</value>
+  </data>
+  <data name="RateUs_Alert_Msg_Header" xml:space="preserve">
+    <value>CMCHIS</value>
+  </data>
+  <data name="RateUs_Mandate_Rate" xml:space="preserve">
+    <value>Please click on the image to rate our Portal</value>
+  </data>
+  <data name="RateUs_SubmitFailed" xml:space="preserve">
+    <value>Unable to submit. Please try again.</value>
+  </data>
+  <data name="RateUs_ThanksMessage" xml:space="preserve">
+    <value>Thanks for your feedback. We greatly appriciate it. &lt;br&gt;&lt;br&gt;Would you be willing to rate us in the app store?</value>
+  </data>
+  <data name="NoGeoLocationMsg" xml:space="preserve">
+    <value>Sorry! we are not able to detect your location. Please try with manual search.</value>
+  </data>
+  <data name="NoRecordGeoMsg" xml:space="preserve">
+    <value>No nearby Consultation available for the current location.</value>
+  </data>
+  <data name="NoRecordSearchNameMsg" xml:space="preserve">
+    <value>No Consultation available with searched name. Please check the spelling and try again.</value>
+  </data>
+  <data name="NoRecordSearchPinMsg" xml:space="preserve">
+    <value>No Consultation available for the provided PIN code</value>
+  </data>
+  <data name="NoRecordSearchPinNameMsg" xml:space="preserve">
+    <value>No Consultation available for the provided PIN code and name</value>
+  </data>
+  <data name="NotAbleDetctLoc" xml:space="preserve">
+    <value>Sorry! we are not able to detect location</value>
+  </data>
+  <data name="Pol_mem_N_Exist" xml:space="preserve">
+    <value>Policy Member not Exist</value>
+  </data>
+  <data name="MsgFailedtoBook" xml:space="preserve">
+    <value>Error While Booking Appointment</value>
+  </data>
+  <data name="MsgSlotAlreadyBooked" xml:space="preserve">
+    <value>selected time slot is not available, please try with different time slot</value>
+  </data>
+  <data name="Failed_To_Load_Prescription" xml:space="preserve">
+    <value>Failed to load prescription</value>
+  </data>
+  <data name="No_HealthCheckUp_Selected" xml:space="preserve">
+    <value>Please select health checkup</value>
+  </data>
+  <data name="NoRecordGeoMsgDG" xml:space="preserve">
+    <value>No nearby diagnostic available for the current location.</value>
+  </data>
+  <data name="NoRecordGeoMsgHC" xml:space="preserve">
+    <value>No nearby health checkup available for the current location.</value>
+  </data>
+  <data name="NoRecordSearchNameMsgDG" xml:space="preserve">
+    <value>No diagnostic available with searched name. Please check the spelling and try again.</value>
+  </data>
+  <data name="NoRecordSearchNameMsgHC" xml:space="preserve">
+    <value>No health checkup available with searched name. Please check the spelling and try again.</value>
+  </data>
+  <data name="NoRecordSearchPinMsgDG" xml:space="preserve">
+    <value>No diagnostic available for the provided PIN code</value>
+  </data>
+  <data name="NoRecordSearchPinMsgHC" xml:space="preserve">
+    <value>No health checkup available for the provided PIN code</value>
+  </data>
+  <data name="NoRecordSearchPinNameMsgDG" xml:space="preserve">
+    <value>No diagnostic available for the provided PIN code and name</value>
+  </data>
+  <data name="NoRecordSearchPinNameMsgHC" xml:space="preserve">
+    <value>No health checkup available for the provided PIN code and name</value>
+  </data>
+  <data name="Empty_Email_ID" xml:space="preserve">
+    <value>Email Id cannot be empty</value>
+  </data>
+  <data name="Empty_Mobile_No" xml:space="preserve">
+    <value>Mobile No. cannot be empty</value>
+  </data>
+  <data name="Invalid_Email_ID" xml:space="preserve">
+    <value>Invalid email id.</value>
+  </data>
+  <data name="Invalid_Mobile_No" xml:space="preserve">
+    <value>Invalid Mobile No.</value>
+  </data>
+  <data name="Reg_Already" xml:space="preserve">
+    <value>Registration Failed! Entered mobile or email id is already registered for someone else. Please contact admin.</value>
+  </data>
+  <data name="Reg_Check_Agree" xml:space="preserve">
+    <value>Please select and agree to terms and conditions.</value>
+  </data>
+  <data name="Reg_Details_Sent" xml:space="preserve">
+    <value>Your account has been made, Please verify by clicking the activation link that has been sent you email.</value>
+  </data>
+  <data name="Reg_Failed" xml:space="preserve">
+    <value>Mobile number and Email id is not matching as per the records. Please check once again or contact admin.</value>
+  </data>
+  <data name="Phar_Drug_Qty_Empty" xml:space="preserve">
+    <value>Drug Unit Not Entered for {0}</value>
+  </data>
+  <data name="No_Contact_Info" xml:space="preserve">
+    <value>No contact information available</value>
+  </data>
+  <data name="Customerupport_Mandate_CouldNotOpenMailApp" xml:space="preserve">
+    <value>Could not open your mail app. Please check if you have logged in or check your mail app settings.</value>
+  </data>
+  <data name="Customerupport_Mandate_SelectIssue" xml:space="preserve">
+    <value>Please Select issue</value>
+  </data>
+  <data name="Customerupport_Mandate_UnableToSubmit" xml:space="preserve">
+    <value>Unable to submit. Please try again.</value>
+  </data>
+  <data name="Diag_AppBook_Alret" xml:space="preserve">
+    <value>Have you call and fix the appointment with diagnostic center?</value>
+  </data>
+  <data name="AppointmentIdCancelled" xml:space="preserve">
+    <value>Your appointment id @ is cancelled.</value>
+  </data>
+  <data name="FailedBookAppointment" xml:space="preserve">
+    <value>Failed to book appointment</value>
+  </data>
+  <data name="FailedCancelapontmnt" xml:space="preserve">
+    <value>Failed to cancel your appointment</value>
+  </data>
+  <data name="PatientNFound" xml:space="preserve">
+    <value>Patient details not found</value>
+  </data>
+  <data name="PhysicianNFound" xml:space="preserve">
+    <value>Physician details not found</value>
+  </data>
+  <data name="No_Shipping_Address" xml:space="preserve">
+    <value>Please Add one shipping address.</value>
+  </data>
+  <data name="No_Drug_selected_Order" xml:space="preserve">
+    <value>Please Select any Drug</value>
+  </data>
+  <data name="Drug_Order_Placed" xml:space="preserve">
+    <value>Order Submitted. Order No - {0}</value>
+  </data>
+  <data name="Drug_Order_Place_Failed" xml:space="preserve">
+    <value>Failed to Place Order</value>
+  </data>
+  <data name="Drug_Order_Unit_Not_Exceed" xml:space="preserve">
+    <value>Order for {0} should not exceed the prescribed unit {1}</value>
+  </data>
+  <data name="App_Time_NotSel" xml:space="preserve">
+    <value>Please Select the appointment time.</value>
+  </data>
+  <data name="Logout_Alert" xml:space="preserve">
+    <value>User logout successful</value>
+  </data>
+  <data name="Logout_Timeout" xml:space="preserve">
+    <value>Login session got expired. Please login again</value>
+  </data>
+  <data name="Time_Format_Wrong" xml:space="preserve">
+    <value>Please provide a valid time format</value>
+  </data>
+  <data name="App_Date_Empty" xml:space="preserve">
+    <value>Appointment date can not be empty.</value>
+  </data>
+  <data name="Diag_Search_By_Name" xml:space="preserve">
+    <value>Please enter at least 3 characters of diagnostic name to be searched</value>
+  </data>
+  <data name="BreakupDetails_Alert_Msg_Header" xml:space="preserve">
+    <value>CMCHIS</value>
+  </data>
+  <data name="BreakupDetails_NoRecords" xml:space="preserve">
+    <value>No Records</value>
+  </data>
+  <data name="Phar_Drug_Rate_Empty" xml:space="preserve">
+    <value>Drug Rate Not Entered for {0}</value>
+  </data>
+  <data name="FailedUpdateMPIN" xml:space="preserve">
+    <value>Failed to Update MPIN</value>
+  </data>
+  <data name="InvalidOldMPIN" xml:space="preserve">
+    <value>Invalid Old MPIN</value>
+  </data>
+  <data name="MPINChangedSucc" xml:space="preserve">
+    <value>MPIN Changed Successfully.</value>
+  </data>
+  <data name="FailedDelReminder" xml:space="preserve">
+    <value>Failed to delete reminder</value>
+  </data>
+  <data name="FailedSetReminder" xml:space="preserve">
+    <value>Failed to set reminder</value>
+  </data>
+  <data name="ReminderDeleted" xml:space="preserve">
+    <value>Reminder deleted</value>
+  </data>
+  <data name="ReminderSaved" xml:space="preserve">
+    <value>Reminder Saved</value>
+  </data>
+  <data name="SetReminder" xml:space="preserve">
+    <value>Please set the medicine reminder</value>
+  </data>
+  <data name="Login_Empty_MPIN" xml:space="preserve">
+    <value>Please enter MPIN</value>
+  </data>
+  <data name="Login_Empty_OTP" xml:space="preserve">
+    <value>Please enter OTP</value>
+  </data>
+  <data name="AppointmentBookDetails_Count_Exceeded" xml:space="preserve">
+    <value>Maximum appointment Book Count exceeded</value>
+  </data>
+  <data name="PharmacyOrderDetail_Alert_Msg_Header" xml:space="preserve">
+    <value>Billing Details</value>
+  </data>
+  <data name="PharmacyOrderDetail_NoRecords" xml:space="preserve">
+    <value>No Records</value>
+  </data>
+  <data name="PharmacyOrderDetail_OrderCancelled" xml:space="preserve">
+    <value>Order is cancelled</value>
+  </data>
+  <data name="PharmacyOrderDetail_OrderConfirmed" xml:space="preserve">
+    <value>Order is Confirmed</value>
+  </data>
+  <data name="Refund_Status_Alreay_Updated" xml:space="preserve">
+    <value>Response has been already updated for this Order.</value>
+  </data>
+  <data name="Refund_Status_Failure" xml:space="preserve">
+    <value>Thanks for the confirmation.</value>
+  </data>
+  <data name="Refund_Status_Sucessfull" xml:space="preserve">
+    <value>Thanks for the confirmation.</value>
+  </data>
+  <data name="Browser_Compatibility" xml:space="preserve">
+    <value>IL take care uses the feature that are unavailable in your current browser. Please use IL TakeCare web in one of these browsers:</value>
+  </data>
+  <data name="AddUpAddressPage_AddressUpdated" xml:space="preserve">
+    <value>Successfully updated shipping details.</value>
+  </data>
+  <data name="AddUpAddressPage_Street_PinEmpty" xml:space="preserve">
+    <value>Street name and pincode can not be empty.</value>
+  </data>
+  <data name="PrescriptionDetails_chkIsShow_save" xml:space="preserve">
+    <value>Failed to Save</value>
+  </data>
+  <data name="File_Not_found" xml:space="preserve">
+    <value>File does not exist.</value>
+  </data>
+  <data name="Invioce_not_recevied" xml:space="preserve">
+    <value>Invoice not received</value>
+  </data>
+  <data name="UnableToLogin" xml:space="preserve">
+    <value>Mail will be sent from your email id for the above issue. Click on OK button to continue.</value>
+  </data>
+  <data name="Generic_Exception_Mesage" xml:space="preserve">
+    <value>Something went wrong. Please try after some time.</value>
+  </data>
+  <data name="Empty_Employee_ID" xml:space="preserve">
+    <value>Employee Id cannot be empty</value>
+  </data>
+  <data name="Reg_DuplicateMobileNoExist" xml:space="preserve">
+    <value>Registration Failed! The entered mobile number is being used by someone else. Please contact admin.</value>
+  </data>
+  <data name="Reg_EmployeeIdNotExist" xml:space="preserve">
+    <value>Please check the employee id you have entered. It does not match with our records.</value>
+  </data>
+  <data name="Invalid_Primary_Email" xml:space="preserve">
+    <value>Invalid primary email id</value>
+  </data>
+  <data name="Invalid_Primary_Mobile" xml:space="preserve">
+    <value>Invalid primary mobile number</value>
+  </data>
+  <data name="Invalid_Secondary_Email" xml:space="preserve">
+    <value>Invalid secondary email id.</value>
+  </data>
+  <data name="Invalid_Secondary_Mobile" xml:space="preserve">
+    <value>Invalid secondary mobile number</value>
+  </data>
+  <data name="PrimaryEmail_Mandatory" xml:space="preserve">
+    <value>Primary email id can not be left blank.</value>
+  </data>
+  <data name="PrimaryMobile_Mandatory" xml:space="preserve">
+    <value>Primary mobile number can not be left blank.</value>
+  </data>
+  <data name="Primary_MobileNo_Already_Exist" xml:space="preserve">
+    <value>Primary mobile number already exist.</value>
+  </data>
+  <data name="AadharCard_Blur" xml:space="preserve">
+    <value>Please enter the Valid Aadhar Number</value>
+  </data>
+  <data name="INACTIVE_EMPLOYEE_ID" xml:space="preserve">
+    <value>Regret to inform you that registration cannot be done currently as the employee is inactive.</value>
+  </data>
+  <data name="POLICY_EXPIRED" xml:space="preserve">
+    <value>Regret to inform you that registration cannot be done currently as your policy is already expired.</value>
+  </data>
+  <data name="POLICY_INACTIVE" xml:space="preserve">
+    <value>Regret to inform you that registration cannot be done currently as the member policy is inactive.</value>
+  </data>
+  <data name="INACTIVE_DEPEDENT" xml:space="preserve">
+    <value>Regret to inform you that registration cannot be done currently as the member is inactive.</value>
+  </data>
+  <data name="MEMBER_ALREADY_REGISTERED" xml:space="preserve">
+    <value>Regret to inform you that registration cannot be done currently as the member is already registered.</value>
+  </data>
+  <data name="Doctor_Not_Available" xml:space="preserve">
+    <value>No doctor available for the selected entity</value>
+  </data>
+  <data name="EMPLOYEE_ID_MEMBER_ID_INVALID" xml:space="preserve">
+    <value>Please check the employee id and member id you have entered. It does not match with our records.</value>
+  </data>
+  <data name="MEMBER_ID_Empty" xml:space="preserve">
+    <value>Member id cannot be empty</value>
+  </data>
+  <data name="OPDNetworkNotAvailable" xml:space="preserve">
+    <value>OPD Network not available. Request to use 24X7 Tele consult services for Medical Advice.</value>
+  </data>
+  <data name="Min_Test_Item" xml:space="preserve">
+    <value>Atleast one test is required</value>
+  </data>
+  <data name="Invalid_Login_Password" xml:space="preserve">
+    <value>Incorrect Password</value>
+  </data>
+  <data name="Invalid_Login_UserId" xml:space="preserve">
+    <value>Please Enter Valid User Id</value>
+  </data>
+</root>

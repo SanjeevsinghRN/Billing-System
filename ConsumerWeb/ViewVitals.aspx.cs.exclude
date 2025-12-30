@@ -1,0 +1,469 @@
+﻿using RN.MOBILE_COMMON;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Data;
+//using RN.Proxy.OP_EntityService;
+using System.Configuration;
+using System.Reflection;
+
+public partial class Modules_ViewVitals : System.Web.UI.Page
+{
+    string docsPath = ConfigurationManager.AppSettings["docsPath"];
+    List<Vital_Controls> VitalsLst = null;
+    int rowcount = 0;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            Label lblBAckUrl = (Label)Master.FindControl("lblBAckUrl");
+            lblBAckUrl.Text = "VitalDashBoardPage.aspx";
+            Label lblTitle = (Label)Master.FindControl("lblTitle");
+            if (lblTitle != null)
+            {
+                lblTitle.Text = "Vitals";
+            }
+
+            PrescriptionClass objPresc = (PrescriptionClass)Session["ViewVitals"];
+
+            if (!IsPostBack)
+            {
+                if (objPresc!=null)
+                {
+                    lblPatname.Text = objPresc.patientName;
+                    lblPresDate.Text = objPresc.prescriptionDate;
+
+                    string prescriptionID = objPresc.prescriptionId;
+                    string AppointmentID = Convert.ToString(objPresc.AppointmentId);
+                    string Vital_id = objPresc.Vital_ID;
+
+                    if (!string.IsNullOrEmpty(AppointmentID) && Convert.ToInt32(objPresc.AppointmentId) > 0)
+                    {
+                        DynamicVitalGrd1.DataSource = ViewDynamicVitals(AppointmentID, "", "");
+                        DynamicVitalGrd1.DataBind();
+                    }
+                    else if (!string.IsNullOrEmpty(prescriptionID))
+                    {
+                        DynamicVitalGrd1.DataSource = ViewDynamicVitals("", prescriptionID, "");
+                        DynamicVitalGrd1.DataBind();
+                    }
+                    else
+                    {
+                        DynamicVitalGrd1.DataSource = ViewDynamicVitals("", "", Vital_id);
+                        DynamicVitalGrd1.DataBind();
+                    }
+
+                    if (objPresc.AttachmentsLst!=null && objPresc.AttachmentsLst.Count > 0)
+                    {
+                        GridReports.DataSource = objPresc.AttachmentsLst;
+                        GridReports.DataBind();
+
+                        DivFile.Visible = true;
+                    }
+
+                    
+                }
+            }
+            ScriptManager.RegisterClientScriptBlock(Page, GetType(), "SendMai1l", "<script>hideLoader();</script>", false); 
+        }
+        catch (Exception ex)
+        {
+
+            ErrorLogger.LogMessage(ex, Utils.ErrorLogPath);
+        }
+
+    }
+
+    protected void GridReports_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+
+            int index = 0;
+            string prescId = string.Empty;
+            ImageButton lnkOrder = null;
+
+            string type = e.CommandName.ToString().Trim();
+            if (type.Equals("Delete"))
+            {               
+                //UpdatePanel3.Update();
+            }
+            else if (type.Equals("View"))
+            {
+                lnkOrder = (ImageButton)e.CommandSource;
+                GridViewRow row = (GridViewRow)((ImageButton)e.CommandSource).NamingContainer;
+                index = row.RowIndex;
+
+                string filename = Convert.ToString(GridReports.DataKeys[index].Values[0]);
+                string patient_id = Convert.ToString(GridReports.DataKeys[index].Values[1]);
+
+                string fillpath = docsPath + filename;
+                System.IO.FileInfo file = new System.IO.FileInfo(fillpath);
+                file = new System.IO.FileInfo(fillpath);
+                bool Opened = false;
+
+                string CustomUrl = string.Format("DownloadType={0}&PATIENT_ID={1}&ATTACH_FILENAME={2}", "VitalReport", patient_id, filename);
+                Response.Redirect("../DownloadFile.ashx?query=" + Utils.Encrypt(CustomUrl));
+
+                //if (!file.Exists)
+                //{
+                //    Opened = PatientModel.DownloadAttachmentFile(patient_id, filename, docsPath);
+                //}
+                //else
+                //{
+                //    Opened = true;
+                //}
+
+                //if (Opened)
+                //{
+                //    file = new System.IO.FileInfo(fillpath);
+                //    if (file.Exists)
+                //    {
+                //        Response.Clear();
+                //        Response.BufferOutput = true;
+                //        Response.AddHeader("Content-Disposition", "attachment; filename=" + file.Name);
+                //        Response.AddHeader("Content-Length", file.Length.ToString());
+                //        Response.ContentType = "application/octet-stream";
+                //        Response.TransmitFile(file.FullName);
+                //        Response.Flush();
+                //    }
+                //}
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorLogger.LogMessage(ex, Utils.ErrorLogPath);
+        }
+    }
+
+    protected void DynamicVitalGrd1_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                var condition = (Label)e.Row.FindControl("lblcol1cond");
+                var secondrowcondition = (Label)e.Row.FindControl("lblcol3cond");
+                var lblcol3name = (Label)e.Row.FindControl("lblcol3name");
+                var lblsep = (Label)e.Row.FindControl("lblsep");
+                var lblsep2 = (Label)e.Row.FindControl("lblsep2");
+                var condition1 = (Label)e.Row.FindControl("lblcol11cond");
+                var condition2 = (Label)e.Row.FindControl("lblcol111cond");
+                var condition3 = (Label)e.Row.FindControl("lblcol33cond");
+                var condition4 = (Label)e.Row.FindControl("lblcol333cond");
+                var txtbx21 = (TextBox)e.Row.FindControl("txtbx21");
+                var txtbx22 = (TextBox)e.Row.FindControl("txtbx22");
+
+                var txtbx41 = (TextBox)e.Row.FindControl("txtbx41");
+                var txtbx42 = (TextBox)e.Row.FindControl("txtbx42");
+
+                var lblShow1 = (Label)e.Row.FindControl("lblShow1");
+                var lblShow2 = (Label)e.Row.FindControl("lblShow2");
+
+                var lblcol1name = (Label)e.Row.FindControl("lblcol1name");
+                var lblcol1cond = (Label)e.Row.FindControl("lblcol1cond");
+                var lblcol11cond = (Label)e.Row.FindControl("lblcol11cond");
+                var lblcol111cond = (Label)e.Row.FindControl("lblcol111cond");
+
+                var lblcol2ID = (Label)e.Row.FindControl("lblcol2ID");
+
+                var lblcol3cond = (Label)e.Row.FindControl("lblcol3cond");
+                var lblcol33cond = (Label)e.Row.FindControl("lblcol33cond");
+                var lblcol333cond = (Label)e.Row.FindControl("lblcol333cond");
+                var lblcol4ID = (Label)e.Row.FindControl("lblcol4ID");
+
+
+                if (condition.Text == "IS_2TEXTBOX")
+                {
+                    txtbx21.Width = 35;
+                    txtbx22.Width = 35;
+                    txtbx22.Visible = true;
+                    lblsep.Visible = true;
+                    lblsep.Font.Size = 15;
+                    //e.Row.Cells[2].Text = "IN";
+                    //e.Row.Cells[2].BackColor = Color.Blue;
+                    //e.Row.Cells[2].ForeColor = Color.White;
+                }
+
+                if (secondrowcondition.Text == "IS_2TEXTBOX")
+                {
+                    txtbx41.Width = 35;
+                    txtbx42.Width = 35;
+                    txtbx42.Visible = true;
+                    lblsep2.Visible = true;
+                    lblsep2.Font.Size = 15;
+                    //e.Row.Cells[2].Text = "IN";
+                    //e.Row.Cells[2].BackColor = Color.Blue;
+                    //e.Row.Cells[2].ForeColor = Color.White;
+                }
+
+                else if (condition.Text == "IS_EXPAND" || string.IsNullOrEmpty(lblcol3name.Text))
+                {
+                    if (condition.Text == "IS_EXPAND")
+                    {
+                        e.Row.Cells[2].Visible = false;
+                        e.Row.Cells[1].Attributes.Add("colspan", "3");
+                        //txtbx21.Width = 300;
+                        //txtbx22.Width = 300;
+                        txtbx21.Height = 30;
+                        txtbx22.Height = 30;
+                    }
+                  
+                    txtbx41.Visible = false;
+                    lblcol3name.Visible = false;
+                    txtbx42.Visible = false;
+                }
+
+                //if (txtbx21.Visible)
+                //{
+                //    if (txtbx22.Visible==false && txtbx41.Visible == false && txtbx42.Visible == false)
+                //    {
+                //        txtbx21.Width = 75;
+                //    }
+                //}
+
+                if (rowcount==1)
+                {
+                    txtbx21.Width = 75;
+                }
+
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorLogger.LogMessage(ex, Utils.ErrorLogPath);
+        }
+    }
+    private DataTable ViewDynamicVitals(string AppointmentId, string PrescId, string vitalID)
+    {
+
+        string physician_id = string.Empty;
+        //  OP_EntityService Esub = null;
+        DataTable DtPhysician = null;
+        DataTable DtVitals = null;
+        DataTable DtViewVitals = null;
+        DataTable dtCustom = null;
+        VitalsLst = new List<Vital_Controls>();
+      //  PrescriptionClass objpreSession = new PrescriptionClass();
+        PrescriptionClass objpreSession = (PrescriptionClass)Session["ViewVitals"];
+
+        try
+        {
+
+            // Esub = new OP_EntityService();
+
+            if (!string.IsNullOrEmpty(AppointmentId))
+            {
+                //if (DtPhysician.Rows.Count > 0)
+                //    DtVitals = Esub.GetVitalsBindingData(DtPhysician.Rows[0]["speciality_id"].ToString());
+
+               // objpreSession = objPresc.Where(item => item.AppointmentId == Convert.ToInt32(AppointmentId)).ToList().FirstOrDefault();
+                DtViewVitals = ToDataTable(objpreSession.VitalsLst);
+
+                //OP_EntityService objESub = new OP_EntityService();
+                //string prescription1 = objESub.GetAppointmentInfo(AppointmentId);
+                //DataSet objPres2 = Utils.DeSerialize(prescription1);
+
+
+
+                //if (objPres2.Tables[0].Rows.Count > 0)
+                //{
+                //    if (!string.IsNullOrEmpty(objPres2.Tables[0].Rows[0]["prescriptionId"].ToString()))
+                //    {
+                //        DtViewVitals = Esub.GetViewBindingData(objPres2.Tables[0].Rows[0]["prescriptionId"].ToString());
+
+                //    }
+                //    else if (!string.IsNullOrEmpty(AppointmentId) && Convert.ToInt32(AppointmentId) > 0)
+                //    {
+                //        DtViewVitals = Esub.GetViewBindingData_vitals(Convert.ToInt32(AppointmentId));
+
+                //    }
+                //    else
+                //    {
+                //        DtViewVitals = Esub.GetViewBindingData_vitals_1(Convert.ToInt32(vitalID));
+                //    }
+                //}
+
+
+            }
+            else if (!string.IsNullOrEmpty(PrescId))
+            {
+                // DtViewVitals = Esub.GetViewBindingData(PrescId);
+
+                //objpreSession = lstPresc.Where(item => item.prescriptionId == PrescId).ToList().FirstOrDefault();
+                DtViewVitals = ToDataTable(objpreSession.VitalsLst);
+            }
+            else
+            {
+                // DtViewVitals = Esub.GetViewBindingData_vitals_1(Convert.ToInt32(vitalID));
+
+               // objpreSession = lstPresc.Where(item => item.Vital_ID == vitalID).ToList().FirstOrDefault();
+                DtViewVitals = ToDataTable(objpreSession.VitalsLst);
+            }
+
+            dtCustom = new DataTable();
+            dtCustom.Columns.Add(new DataColumn("Column1", typeof(string)));
+            dtCustom.Columns.Add(new DataColumn("Column2", typeof(string)));
+            dtCustom.Columns.Add(new DataColumn("Column3", typeof(string)));
+            dtCustom.Columns.Add(new DataColumn("Column4", typeof(string)));
+            dtCustom.Columns.Add(new DataColumn("Column11", typeof(string)));
+            dtCustom.Columns.Add(new DataColumn("lblShow1", typeof(string)));
+            dtCustom.Columns.Add(new DataColumn("Column44", typeof(string)));
+            dtCustom.Columns.Add(new DataColumn("Column33", typeof(string)));
+            dtCustom.Columns.Add(new DataColumn("lblShow2", typeof(string)));
+            dtCustom.Columns.Add(new DataColumn("Column22", typeof(string)));
+            dtCustom.Columns.Add(new DataColumn("Column222", typeof(string)));
+            dtCustom.Columns.Add(new DataColumn("Column444", typeof(string)));
+
+            dtCustom.Columns.Add(new DataColumn("Column1111", typeof(string)));
+            dtCustom.Columns.Add(new DataColumn("Column111", typeof(string)));
+
+            dtCustom.Columns.Add(new DataColumn("Column333", typeof(string)));
+            dtCustom.Columns.Add(new DataColumn("Column3333", typeof(string)));
+
+            rowcount = DtViewVitals.Rows.Count;
+
+            if (DtViewVitals.Rows.Count > 0)
+            {
+                int grdRowInc = 0, grdColInc = 0, itmcnt = 0;
+                DataRow dr = null;
+
+
+
+                foreach (DataRow dtrow in DtViewVitals.Rows)
+                {
+                    itmcnt++;
+
+                    if (grdColInc == 4)
+                    {
+                        grdColInc = 0;
+                    }
+
+                    if (Convert.ToInt32(dtrow["IS_EXPAND"]) == 1 && grdColInc != 0)
+                    {
+                        grdColInc = 0;
+                        grdRowInc++;
+                    }
+                    if (grdColInc == 0)
+                    {
+                        dr = dtCustom.NewRow();
+                        dr["Column1"] = dtrow["CONTROL_TEXT"];
+                        dr["Column2"] = "0";
+                        if (Convert.ToInt32(dtrow["IS_2TEXTBOX"]) == 1)
+                        {
+                            dr["Column11"] = "IS_2TEXTBOX";
+                        }
+                        else if (Convert.ToInt32(dtrow["IS_EXPAND"]) == 1)
+                            dr["Column11"] = "IS_EXPAND";
+                        else
+                            dr["Column11"] = "0";
+
+                        if (Convert.ToInt32(dtrow["IS_2TEXTBOX"]) != 1)
+                        {
+                            dr["Column22"] = dtrow["CONTROL_TEXT_Value"];
+                        }
+                        else
+                        {
+                            //dr["Column22"] = dtrow["CONTROL_TEXT_Value"];
+
+                            dr["Column22"] = dtrow["CONTROL_TEXT_Value"].ToString().Split('/')[0];
+                            dr["Column222"] = dtrow["CONTROL_TEXT_Value"].ToString().Split('/')[1];
+                        }
+
+                        dtCustom.Rows.Add(dr);
+                    }
+                    else
+                    {
+                        dr["Column3"] = dtrow["CONTROL_TEXT"];
+                        dr["Column4"] = "0";
+
+                        if (Convert.ToString(dtrow["IS_2TEXTBOX"]) == "1")
+                        {
+                            dr["Column33"] = "IS_2TEXTBOX";
+                        }
+                        else if (Convert.ToString(dtrow["IS_EXPAND"]) == "1")
+                        {
+                            dr["Column33"] = "IS_EXPAND";
+                        }
+                        else
+                        {
+                            dr["Column33"] = "0";
+                        }
+
+                        if (Convert.ToInt32(dtrow["IS_2TEXTBOX"]) != 1)
+                        {
+                            dr["Column44"] = dtrow["CONTROL_TEXT_Value"];
+                        }
+                        else
+                        {
+                            // dr["Column44"] = dtrow["CONTROL_TEXT_Value"];
+                            dr["Column44"] = dtrow["CONTROL_TEXT_Value"].ToString().Split('/')[0];
+                            dr["Column444"] = dtrow["CONTROL_TEXT_Value"].ToString().Split('/')[1];
+                        }
+                    }
+
+                    if (Convert.ToInt32(dtrow["IS_EXPAND"]) == 1 && grdColInc == 0)
+                    {
+                        grdColInc = grdColInc + 4;
+                    }
+                    else
+                    {
+                        grdColInc = grdColInc + 2;
+                    }
+                }
+            }
+
+            //if (dtCustom!=null)
+            //{
+            //    DynamicVitalGrd1.DataSource = dtCustom;
+            //    DynamicVitalGrd1.DataBind();
+
+            //}
+        }
+        catch (Exception ex)
+        {
+            ErrorLogger.LogMessage(ex, Utils.ErrorLogPath);
+        }
+        finally
+        {
+           // if (Esub != null) Esub.Dispose();
+            if (DtPhysician != null) DtPhysician.Dispose();
+            if (DtVitals != null) DtVitals.Dispose();
+            if (DtViewVitals != null) DtViewVitals.Dispose();
+            if (dtCustom != null) dtCustom.Dispose();
+
+        }
+        return dtCustom;
+    }
+
+    public static DataTable ToDataTable<T>(List<T> items)
+    {
+        DataTable dataTable = new DataTable(typeof(T).Name);
+
+        //Get all the properties
+        PropertyInfo[] Props = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        foreach (PropertyInfo prop in Props)
+        {
+            //Defining type of data column gives proper data table 
+            var type = (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>) ? Nullable.GetUnderlyingType(prop.PropertyType) : prop.PropertyType);
+            //Setting column names as Property names
+            dataTable.Columns.Add(prop.Name, type);
+        }
+        foreach (T item in items)
+        {
+            var values = new object[Props.Length];
+            for (int i = 0; i < Props.Length; i++)
+            {
+                //inserting property values to datatable rows
+                values[i] = Props[i].GetValue(item, null);
+            }
+            dataTable.Rows.Add(values);
+        }
+        //put a breakpoint here and check datatable
+        return dataTable;
+    }
+}

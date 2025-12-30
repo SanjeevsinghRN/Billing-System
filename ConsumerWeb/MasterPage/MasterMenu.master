@@ -1,0 +1,411 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterMenu.master.cs" Inherits="MasterPage_MasterMenu" %>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title><%=PageTitle %></title>
+    <meta name="description" id="metadescription" runat="server" />
+    <meta name="keywords" id="metakeyword" runat="server" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <link href="../css/bootstrap.css" rel="stylesheet" />
+    <script src="../Scripts/jquery-3.2.1.min.js"></script>
+    <script src="../Scripts/jquery-ui.min.js"></script>
+    <script src="../Scripts/bootstrap.js"></script>
+    <script src="../Scripts/respond.js"></script>
+    <script src="../Scripts/bootbox.min.js?v=1.0"></script>
+    <script src="../Scripts/Common.js?v=1.0"></script>
+    <script src="../Scripts/Site.js?v=1.13"></script>
+
+    
+    <% if (!string.IsNullOrEmpty(is_broker) && is_broker == "1") { %>
+    <link href="../css/site_MAYDEN.css?v=1.1.68" rel="stylesheet" />
+    <link href="../css/Site1_MAYDEN.css" rel="stylesheet" />
+    <link href="../css/feedback-service_MAYDEN.css" rel="stylesheet" />
+    <% }
+   else {%>
+    <link href="../css/site_IL.css?v=1.3.00" rel="stylesheet" />
+    <link href="../css/Site1_IL.css?v=1.2.00" rel="stylesheet" />
+    <link href="../css/feedback-service_IL.css?v=1.2.00" rel="stylesheet" />
+     <% } %>
+
+    <style>
+           body {
+           
+            font-family: Arial, sans-serif;
+        }
+        .menu {
+            background-color: #fff;
+            padding: 10px;
+            display: inline-block;
+        }
+        .menu > ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .menu ul li {
+            position: relative;
+            display: inline-block;
+            padding: 10px 15px;
+            background: #ddd;
+            cursor: pointer;
+        }
+        .menu ul li:hover {
+            background: #bbb;
+        }
+        .submenu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #ddd;
+            padding: 0;
+            width: 200px;
+        }
+        .submenu li {
+            display: block;
+            width: 100%;
+            position: relative;
+        }
+        .submenu .submenu {
+            top: 0;
+            left: 100%;
+        }
+        .menu ul li:hover > .submenu {
+            display: block;
+        }
+        .mobileMenu {
+            background-color: <%=MENU_BACKROUND_COLOR%>;
+        }
+
+        .cl {
+            position: relative;
+            display: block;
+            padding: 10px 15px;
+        }
+
+        .navbar-default {
+            background-color: <%=HEADER_BACKROUND_COLOR%>;
+            border-color: <%=HEADER_BACKROUND_COLOR%>;
+        }
+
+            .navbar-default .navbar-nav > .active > a,
+            .navbar-default .navbar-nav > .active > a:hover,
+            .navbar-default .navbar-nav > .active > a:focus {
+                color: <%=HEADER_BACKROUND_COLOR%>;
+                background-color: <%=HEADER_BACKROUND_COLOR%>;
+            }
+
+            .navbar-default .navbar-nav > li > a:focus {
+                color: <%=COLOR1%>;
+            }
+
+        .menu-color {
+            color: <%=MenuColor%>;
+        }
+
+
+        .menuArrow {
+            color: <%=menuArrow%>;
+        }
+
+        .menu-wrapper {
+            border-bottom: 1px solid <%=MenuSeperator%>;
+        }
+
+        .FullWidthButtom {
+            background-color: <%=SINGLE_BUTTON_ENDLAYOUT%> !important;
+            border: 1px solid <%=SINGLE_BUTTON_ENDLAYOUT%> !important;
+        }
+
+        .end-layout-btn, .divAtBottom [type=submit], .divAtBottom-PH [type=submit], .divFixedBotton_AC[type=submit] .familyMemberCardHeaderFont .btn-round, .presclistViewContentStyle input[type=submit], [id$=divFileUpload] [id$=BtnCapture],.btnpayNow {
+            background-image: <%=evaluate(NORMAL_BUTTON)%>;
+            background-color: <%=NORMAL_BUTTON%>;
+            border: 1px solid <%=NORMAL_BUTTON%>;
+        }
+
+        [id$=pnlOrderDetails] input[type=submit] #divListContent [id$=btnCall] {
+            background-image: <%=evaluate(NORMAL_BUTTON2)%>;
+            background-color: <%=NORMAL_BUTTON2%>;
+            border: 1px solid <%=NORMAL_BUTTON2%>;
+        }
+
+        .prescListStyle [id$=btnAdd], [id*=grdPrescLst] #divListContent [id*=divInvoice], #divListContent [id*=divOrder], #pnlmpSelectMemberPopupPopup [id$=btnClosePopup], #pnlmpSelectIssuePopupPopup [id*=btnClosePopup], [id$=divAddAttachment] [id$=btnAddAttachment] {
+            background-image: <%=evaluate(NORMAL_BUTTON3)%>;
+            background-color: <%=NORMAL_BUTTON3%>;
+            border: 1px solid <%=NORMAL_BUTTON4%>;
+        }
+
+        .homePageLogo {
+            display: <%=HOME_PAGE_LOGO%> !important;
+        }
+
+
+        [id$=lblUserName], [id$=lblCoporate], [id$=lblPolicyNumber], [id$=lblCardNo], [id$=lblLastVisit] {
+            color: <%=ENTITY_FONT_COLOR%> !important;
+        }
+
+
+        .end-layout-btn, .divAtBottom input[type=submit], .divAtBottom input[id$=btnShowVitals], .page-footer input[type=submit], .page-footer [id$=divSubmit], .divFixedBotton input[type=submit] {
+            background-color: <%=SINGLE_BUTTON_ENDLAYOUT%>;
+            border: 1px solid <%=SINGLE_BUTTON_ENDLAYOUT%>;
+        }
+
+        .end-layout-btn1 {
+            background-color: <%=ENDLAYOUT_BUTTON_1%> !important;
+            border: 1px solid <%=ENDLAYOUT_BUTTON_1%> !important;
+        }
+
+
+        .end-layout-btn2 {
+            background-color: <%=ENDLAYOUT_BUTTON_2%> !important;
+            border: 1px solid <%=ENDLAYOUT_BUTTON_2%> !important;
+        }
+    </style>
+    <script>
+        $("#myModal").on("show", function () {    // wire up the OK button to dismiss the modal when shown  document.location.href.match(/[^\/]+$/)[0]
+            $("#myModal a.btn").on("click", function (e) {
+                console.log("button pressed");   // just as an example...
+                $("#myModal").modal('hide');     // dismiss the dialog
+            });
+        });
+
+        $("#myModal").on("hide", function () {    // remove the event listeners when the dialog is dismissed
+            $("#myModal a.btn").off("click");
+        });
+
+        $("#myModal").on("hidden", function () {  // remove the actual elements from the DOM when fully hidden
+            $("#myModal").remove();
+        });
+
+        $("#myModal").modal({                    // wire up the actual modal functionality and show the dialog
+            "backdrop": "static",
+            "keyboard": true,
+            "show": true                     // ensure the modal is shown immediately
+        });
+
+        function setContainerDimension() {
+
+            var headerHeight = 51;// $(".menu-header").outerHeight();
+            var footerHeight = 0;
+            var screenHeight = $(window).height();
+            var screenWidth = $(window).width();
+            var contentHeight = screenHeight - (headerHeight);
+            var contentWidth = $(".master-content").outerWidth();
+            $(".master-content").css({ 'position': 'absolute', 'top': headerHeight, 'left': (screenWidth - contentWidth) / 2, 'right': (screenWidth - contentWidth) / 2, 'bottom': footerHeight });
+            $(".pnlFilter").css({ 'top': headerHeight + "px !important" });
+        };// setting content page dimension
+
+        function showLoader() { $("#divprogress").show(); }
+        function hideLoader() { $("#divprogress").fadeOut("slow"); }
+        function reposition() {
+            var modal = $(".modal"),
+                dialog = modal.find('.modal-dialog');
+            modal.css('display', 'block');
+
+            // Dividing by two centers the modal exactly, but dividing by three 
+            // or four works better for larger screens.
+            dialog.css("margin-top", Math.max(0, ($(window).height() - dialog.height()) / 2));
+        }
+        // Reposition when a modal is shown
+        //  $('.modal').on('show.bs.modal', reposition);
+        // Reposition when the window is resized
+        $(window).on('resize', function () {
+            //     $('.modal:visible').each(reposition);
+        });
+        $(document).ready(function () {
+
+            headerHeight = $(".menu-header").outerHeight();
+            setContainerDimension();
+            var mapPageArray = ["ConsultantAppointmentPage.aspx", "SearchBySpecialtyV.aspx", "SearchByPharmacyV.aspx", "PharmacyProfile.aspx", "DiagnosticSearch.aspx"];
+            var currnetUrl = window.location.pathname;
+            var index = -1;
+            $("[id$='btnMapList']").hide();
+            for (var k = 0; k < mapPageArray.length; k++) {
+                index = currnetUrl.indexOf(mapPageArray[k]);
+                if (index > -1) { $("[id$='btnMapList']").show(); break }
+            }
+            var interval = setInterval(function () {
+                hideLoader(); clearInterval(interval);
+            }, 300);
+            <%if (!string.IsNullOrEmpty(Convert.ToString(Session["IL_INTEGRATION_SERVICE_TYPE"])) && Convert.ToString(Session["IL_INTEGRATION_SERVICE_TYPE"]) != "0")
+            {%>
+            $('#btnMainMenu').css("visibility", "hidden");
+            $("ul.menuView").css("visibility", "hidden");
+            //$('.backBtnIcon').hide();
+            <%}%>
+        });
+        $(window).resize(function () {
+            if (this.resizeTO) clearTimeout(this.resizeTO);
+            this.resizeTO = setTimeout(function () {
+                $(this).trigger('resizeEnd');
+            }, 100);
+        });
+        $(window).bind('resizeEnd', function () {
+            setContainerDimension();
+        }); // Event handler for page resize
+    </script>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body class="Mainloginbox">
+    <form id="form1" runat="server">
+        <asp:HiddenField ID="Audit_LogUpdate" runat="server" />
+        <asp:HiddenField ID="Audit_UserId" runat="server" />
+        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+        <asp:Label ID="lblBAckUrl" runat="server" Style="display: none"></asp:Label>
+        <asp:Button ID="btnBack" runat="server" OnClick="btnBack_Click" Style="display: none" />
+        <asp:UpdatePanel ID="up_divprogress" runat="server">
+            <ContentTemplate>
+                <%--<div id="divprogress" class="fl w100p pos-fixed" style="z-index: 100000; opacity: 1.20; filter: alpha(opacity=70);" runat="server">
+                    <div id="divprg_img" style="z-index: 100002; height: 100%; display: table;" class="fl w100p">
+                        <div style="display: table-cell; text-align: center; vertical-align: middle;">
+                            <asp:Image Width="100" ID="imgLoader" ImageUrl="../Images/finger-tapping-loading-animation?v=1.1" runat="server" />
+                        </div>
+                    </div>
+                </div>--%>
+                <div id="divprogress" class="fl w100p pos-fixed full-screen-loader" runat="server">
+    <div id="divprg_img" class="loader-content">
+        <asp:Image Width="200" ID="imgLoader" ImageUrl="../Images/finger-tapping-loading-animation?v=1.1" runat="server" />
+    </div>
+</div>
+
+            </ContentTemplate>
+        </asp:UpdatePanel>
+        <div class="menu-header navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header navbar-default">
+                    <div class="back-toggle DIB mxy-0 br-0  pr-0" style="margin: 0; padding-bottom: 7px;">
+                        <div id="backBtnIcon" runat="server" class="VM backBtnIcon align-middle CP border-rad-0"></div>
+                    </div>
+                    <button type="button" class="navbar-toggle align-middle" runat="server" id="btnMainMenu" data-toggle="collapse" data-target=".navbar-collapse" style="z-index: 1; margin-left: 5px; border-color: transparent;">
+                        <span class="icon-bar" style="width: 25px;"></span>
+                        <span class="icon-bar" style="width: 25px;"></span>
+                        <span class="icon-bar" style="width: 25px;"></span>
+                    </button>
+                    <asp:HiddenField ID="hdnBAckUrl" runat="server" />
+                </div>
+                <div id="divLiteralMobile" class="" style="left: 0; z-index: 1; display: none; top: 0; background-color: gray; opacity: 0.7; position: fixed; height: 100%; width: 100%"></div>
+                <ul class='menuView m0px p0px fl'>
+                    <li class="liMenuItem navbar-collapse collapse fontSize12px" id="liMenuItem" runat="server" style="display: block; overflow: hidden; height: 51px"></li>
+                </ul>
+               <%-- <div class="menu">
+       <ul class='menuView m0px p0px fl'>
+            <li>Master</li>
+            <li>Transaction
+                <ul class="submenu">
+                    <li>Employee Entry</li>
+                    <li>Sales</li>
+                    <li>Purchase</li>
+                    <li>Stock
+                        <ul class="submenu">
+                            <li>Opening Stock Entry
+                                <ul class="submenu">
+                                    <li>Item Wise</li>
+                                    <li>All Items in Item Master</li>
+                                </ul>
+                            </li>
+                            <li>Stock Adjustment Entry</li>
+                            <li>Stock Inward Entry</li>
+                            <li>Stock Outward Entry</li>
+                        </ul>
+                    </li>
+                    <li>Cash</li>
+                    <li>Re-Packing Items</li>
+                    <li>Physical Stock Entry</li>
+                </ul>
+            </li>
+            <li>Reports</li>
+            <li>Admin Setup</li>
+            <li>Exit</li>
+        </ul>
+    </div>--%>
+                <ul class="menu-control m0px p0px DN" style="height: 51px">
+                    <li class="w100p limobileAdjust FH m0px p0px DIB ShowHideheaders">
+                        <ul class="m0px p0px text-center FH menu-list m0px mr-15" style="margin-right: 15px">
+                            <li class="NameTextColor FH p0px m0px DIB lblTitle fl">
+                                <div class="DT FH text-left">
+                                    <asp:Label runat="server" CssClass="VM px-10 fontSize16px" Style="padding-left: 0" ID="lblTitle" Text=""></asp:Label>
+                                </div>
+                            </li>
+                            <li class="DIB FH p0px m0px liLocationContainer text-left">
+                                <ul class="FH p0px m0px">
+                                    <li class="FH p0px m0px DIB ">
+                                        <ul class="FH p0px m0px">
+                                            <li class="DIB FH p0px m0px fl">
+                                                <div class="DT FH">
+                                                    <div class="VM">
+                                                        <asp:ImageButton ID="imgCity" Style="padding-right: 5px; padding-left: 0px" runat="server" CssClass="VM locationIcon ON" ImageUrl="../Images/GeoTagWhite.png" OnClick="btncityName_Click" Visible="false" />
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="text-center DIB FH p0px m0px fl">
+                                                <div class="DT FH">
+                                                    <div class="VM">
+                                                        <asp:UpdatePanel ID="UPCityName" UpdateMode="Conditional" runat="server">
+                                                            <ContentTemplate>
+
+                                                                <asp:Button ID="btncityName" Style="padding-right: 10px" ClientIDMode="Static" runat="server" CssClass="fontSize14px VM locationName btn-transparent p0px ON" OnClick="btncityName_Click" Visible="false" />
+
+                                                            </ContentTemplate>
+                                                        </asp:UpdatePanel>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="text-right DIB FH p0px m0px ShowHideheaders fr">
+                                        <div class="DT w100p FH">
+                                            <div class="VM">
+                                                <input type="button" id="btnMapList" style="padding-right: 0px" class="btnMapList btn-transparent ON fontSize14px" value="Map" runat="server" />
+                                                <asp:ImageButton ID="btnFilterMaster" Style="padding-right: 0px" CssClass="btnFilterMaster" runat="server" ImageUrl="../Images/filter.png" Visible="false" Height="25" Width="25" />
+                                                <asp:ImageButton ID="btnCall" OnClick="btnCall_Click" Style="padding-right: 0px" runat="server" CssClass="btnCall fontSize12px" ImageUrl="../Images/phone_call.png" Visible="false" class="" Height="30" Width="30" />
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="container ">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+        <div class="container" style="display: none">
+            <div class="row">
+                <hr />
+                <footer class="page-footer navbar-fixed-bottom">
+                    <p>
+                        &copy;
+                     <asp:Label ID="lblYear" runat="server"></asp:Label>
+                        - CMCHIS
+                    </p>
+                </footer>
+            </div>
+        </div>
+    </form>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
